@@ -1,0 +1,19 @@
+﻿<span data-aos="@_animationName" data-aos-delay="@_delay" data-aos-duration="@_duration">
+    @ChildContent
+</span>
+
+@code {
+    string _animationName="";
+    string _duration = "";
+    string _delay = "";
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        _animationName = "fade-down";
+        _duration = "4000";
+        _delay = "50";
+        
+    }
+}

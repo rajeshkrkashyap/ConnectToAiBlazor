@@ -1,0 +1,13 @@
+﻿@page "/logout"
+@layout PublicLayout
+@inject NavigationManager navigation
+@inject IJSRuntime JS
+@code{
+    protected async override void OnInitialized()
+    {
+        await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "AuthToken");
+        await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "cookie_AppUserSetting");
+        await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "cookie_Subjects");
+        navigation.NavigateTo("/login");
+    }
+}

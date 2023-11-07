@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Cloud Text-to-Speech</title>
+</head>
+<body>
+    <button onclick="synthesizeSpeech()">Synthesize Speech</button>
+    <button onclick="pauseSpeech()">Pause</button>
+    <button onclick="resumeSpeech()">Resume</button>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        let synth;
+        let audio;
+
+        function synthesizeSpeech() {
+            gapi.load('client', initClient);
+        }
+
+        function initClient() {
+            gapi.client.init({
+                apiKey: '75996237e5603f9c25407c0f913b26153fb928a0',
+                discoveryDocs: ['https://texttospeech.googleapis.com/$discovery/rest'],
+            }).then(() => {
+                synth = gapi.client.texttospeech.text.synthesize({
+                    input: { text: 'Hello, this is a test.' },
+                    voice: { languageCode: 'en-US', ssmlGender: 'NEUTRAL' },
+                    audioConfig: { audioEncoding: 'LINEAR16' },
+                });
+
+                synth.execute((response) => {
+                    const audioData = response.result.audioContent;
+                    audio = new Audio();
+                    audio.src = `data:audio/wav;base64,${audioData}`;
+                    audio.play();
+                });
+            });
+        }
+
+        function pauseSpeech() {
+            if (audio) {
+                audio.pause();
+            }
+        }
+
+        function resumeSpeech() {
+            if (audio) {
+                audio.play();
+            }
+        }
+    </script>
+</body>
+</html>

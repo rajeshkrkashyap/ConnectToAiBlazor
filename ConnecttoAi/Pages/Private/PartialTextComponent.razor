@@ -1,0 +1,37 @@
+﻿@using DataModel.Models
+@using Newtonsoft.Json;
+@inherits PromptBaseComponent
+@inject AppSettings appSettings
+<MudStack Row="true">
+    <MudIconButton Icon="@Icons.Material.Filled.TextFields" Variant="Variant.Outlined" Color="Color.Default" Style="width:60px" />
+    <MudTextField Lines="2" id="chat-input" @bind-Value="UserInputText" Label="Write you query here!" />
+    <MudButton id="btnSentText" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Default" Size="Size.Small" OnClick="SendPrompt">Send</MudButton>
+</MudStack>
+@code {
+    public string UserInputText { get; set; }
+
+    private async Task SendPrompt()
+    {
+        if (string.IsNullOrEmpty(UserInputText))
+        {
+            return;
+        }
+        var userPrompt = UserInputText;
+        UserInputText = ""; //this require to make clear text box
+        string id = Guid.NewGuid().ToString();
+        await JS.InvokeVoidAsync("UserQueryContent", userPrompt, id);
+
+        string authTokenStr = await JS.InvokeAsync<string>("connectToAiApp.getCookieValue", "AuthToken");
+        if (!string.IsNullOrWhiteSpace(authTokenStr))
+        {
+            UserDetail = JsonConvert.DeserializeObject<UserDetail>(authTokenStr);
+        }
+
+        ClientPromptInput.InputType = "text";
+        ClientPromptInput.Prompt = userPrompt;
+        ClientPromptInput.UserId = UserDetail.UserID;
+
+        var responseContent = await UpdateUiWithOutStream(await ProcessPrompt(appSettings, ClientPromptInput), userPrompt);
+        await JS.InvokeVoidAsync("AppendResponseContent", responseContent, id);
+    }
+}

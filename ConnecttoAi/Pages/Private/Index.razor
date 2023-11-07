@@ -1,0 +1,96 @@
+﻿@page "/private/Index"
+@inherits PromptBaseComponent
+@using Newtonsoft.Json;
+@using System.Text;
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    #main-chat-container {
+        overflow-y: auto;
+        height: calc(100vh - 50px); /* Adjust the height based on your footer height */
+    }
+
+    #footer {
+        position: fixed;
+        bottom: 0;
+        width: 88%;
+        background-color: #333;
+    }
+</style>
+<MudPaper>
+    <MudPaper id="chatContainer" Style="@OtherTab">
+        <PartialChatPageComponent />
+    </MudPaper>
+    <MudPaper id="settingContainer" Style="@SettingTab">
+        <PartialSettingPageComponent />
+    </MudPaper>
+    <MudTabs Outlined="true" Position="Position.Bottom" Rounded="true" Border="true"
+             ApplyEffectsToContainer="true" PanelClass="pa-4" Color="Color.Default" id="footer">
+        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight">
+            <PartialTextComponent />
+        </MudTabPanel>
+        <MudTabPanel Text="AUDIO" OnClick="SetOtherTabHeight">
+            <PartialAudioComponent />
+        </MudTabPanel>
+        <MudTabPanel Text="IMAGE" OnClick="SetOtherTabHeight">
+            <PartialImageComponent />
+        </MudTabPanel>
+        <MudTabPanel Text="SETTINGS" OnClick="SetSettingTabHeight">
+            <PartialSettingsComponent />
+        </MudTabPanel>
+    </MudTabs>
+
+</MudPaper>
+
+
+@code {
+    protected string OtherTab { get; set; } = "display:block"; // height:770px;padding:10px 0px 0px 0px;display:block";
+    protected string SettingTab { get; set; } = "display:none";// "height:770px;padding:10px 0px 0px 0px;display:none";
+    protected void SetOtherTabHeight()
+    {
+        //OtherTab = "height:770px;padding:10px 0px 0px 0px;display:block";
+        //SettingTab = "height:770px;padding:10px 0px 0px 0px;display:none";
+        OtherTab = "display:block";
+        SettingTab = "display:none";
+        //JS.InvokeVoidAsync("adjustScroll");
+        StateHasChanged();
+    }
+    protected void SetSettingTabHeight()
+    {
+        // OtherTab = "height:770px;padding:10px 0px 0px 0px;display:none";
+        // SettingTab = "height:770px;padding:10px 0px 0px 0px;display:block";
+        OtherTab = "display:none";
+        SettingTab = "display:block";
+
+        //JS.InvokeVoidAsync("adjustScroll");
+        StateHasChanged();
+    }
+
+
+    #region JAVA SCRIPT Library
+    private IJSObjectReference? module1;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module1 = await JS.InvokeAsync<IJSObjectReference>("import", "/js/chat.js"); // this is a sample code not in use
+            //await JS.InvokeVoidAsync("loadStorageData.loadDataFromLocalstorage");
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module1 is not null)
+        {
+            await module1.DisposeAsync();
+        }
+    }
+    #endregion
+}
+

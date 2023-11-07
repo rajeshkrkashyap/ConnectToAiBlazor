@@ -1,0 +1,64 @@
+﻿@inject IJSRuntime JS
+@* <MudFileUpload T="IBrowserFile" OnFilesChanged="OnFileChanged" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
+@ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass" Style="margin-left:80px;margin-right:80px"> *@
+<MudPaper Height="100px" Outlined="true" Class="@DragClass" Style="margin-left:80px;margin-right:80px">
+    <MudText id="mudText" Typo="Typo.h6" Style="@isDsiplayMudText">Drag and drop files here or click</MudText>
+    <img id="imgData" Src="@fileData" style="@isDsiplayImage" />
+</MudPaper>
+@*</MudFileUpload> *@
+
+@code {
+    string fileData = "";
+    string isDsiplayMudText = "display:block";
+    string isDsiplayImage = "display:none";
+    private async Task OnFileChanged(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles())
+        {
+            // Process each file
+            // You can upload or handle the file data here
+            // Process each file
+            // You can upload or handle the file data here
+            using var stream = file.OpenReadStream();
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+
+            byte[] imageBytes = memoryStream.ToArray();
+            fileData = $"data:{file.ContentType};base64,{Convert.ToBase64String(imageBytes)}";
+            isDsiplayMudText = "display:none";
+            isDsiplayImage = "display:block;height:75px";
+            Console.WriteLine($"File Name: {file.Name}, Size: {file.Size} bytes");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Register JavaScript interop for paste event
+        await JS.InvokeVoidAsync("registerPasteEvent", DotNetObjectReference.Create(this));
+    }
+
+    private static string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10";
+    private string DragClass = DefaultDragClass;
+
+    private async Task Clear()
+    {
+        ClearDragClass();
+        await Task.Delay(100);
+    }
+
+    private void Upload()
+    {
+        //Upload the files here
+    }
+
+    private void SetDragClass()
+    {
+        DragClass = $"{DefaultDragClass} mud-border-primary";
+    }
+
+    private void ClearDragClass()
+    {
+        DragClass = DefaultDragClass;
+    }
+
+}

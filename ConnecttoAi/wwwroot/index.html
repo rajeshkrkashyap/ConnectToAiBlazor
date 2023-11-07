@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>ConnecttoAi</title>
+    <base href="/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="ConnecttoAi.styles.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link id="stylesheetLink" rel="stylesheet" href="dark.css" />
+</head>
+
+<body>
+    <div class="status-bar-safe-area"></div>
+    <div id="app">Loading...</div>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="_framework/blazor.webview.js" autostart="false"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="/js/animation.js"></script>
+    <script src="/js/chookieHandling.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="/js/processOrderRazorpay.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/3.0.7/marked.min.js"></script>
+    <!-- Speech SDK reference sdk. -->
+    <script src="https://cdn.jsdelivr.net/npm/microsoft-cognitiveservices-speech-sdk@latest/distrib/browser/microsoft.cognitiveservices.speech.sdk.bundle-min.js">
+    </script>
+    <script src="/js/fileuploadinterop.js" defer></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="/js/loadlocaldata.js" defer></script>
+
+    <!-- Speech SDK USAGE -->
+    <script>
+        function toggleStylesheet(styleSheetName) {
+            var stylesheetLink = document.getElementById("stylesheetLink");
+            stylesheetLink.href = styleSheetName + ".css";
+        }
+
+        function UserQueryContent(userPrompt, id) {
+            var targetDiv = document.getElementById('main-chat-container');
+            if (document.getElementById("btnSentText"))
+                document.getElementById("btnSentText").setAttribute("disabled", "");
+            else
+                document.getElementById("btnSentAudio").setAttribute("disabled", "");
+
+            const html = `<div>
+                                                               <div class="chat-container-question">
+                                                               <div class="chat-container-question">
+                                                               <div class="chat-message">
+                                                               <img src="/images/avatar.png" alt="User Avatar" class="avatar">
+                                                               <div class="message-text">`+ userPrompt + `</div>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <div class="chat-container-answer" style="margin-top: 20px;">
+                                                              <div class="chat-message">
+                                                              <div class="grid-container">
+                                                              <div class="grid-item">
+                                                              <div class="icon">
+                                                              <img src="/images/response.png" alt="User Avatar" class="avatar">
+                                                              </div>
+                                                              </div>
+                                                              <div class="grid-item">
+                                                              <div class="message-text" id=`+ id + ` style="margin-top:20px">
+                                                                 <div class="loading-text">
+                                                                 Waiting for response<span class="dots">...</span>
+                                                                 </div>
+                                                                 </div>
+                                                                 </div>
+                                                               <div class="grid-item">
+                                                               <div class="icon" style="margin-top:15px">
+                                                               <button id="speakerOn`+ id + `" aria-label="play" onclick="playAudio('` + id + `')" type="button" class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon" _bl_2="">
+                                                              <span class="mud-icon-button-label" style="display:block">
+                                                              <!--!-->
+                                                              <svg id="svg`+ id + `" class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><title>VolumeUp</title><!--!--><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z">
+                                                              </path>
+                                                              </svg>
+                                                              </span>
+                                                              </button>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              </div>`;
+
+
+            const chatDiv = document.createElement("div");
+            // chatDiv.className = "chat-container-question";
+            chatDiv.innerHTML = html;
+            targetDiv.appendChild(chatDiv);
+
+            var imageElement = $('#imgData');
+            if ($(imageElement).length > 0)
+                $(imageElement).attr("src", "");
+
+            setTimeout(function () {
+                document.getElementById('main-chat-container').scrollTop = document.getElementById('main-chat-container').scrollHeight;
+                console.log(document.getElementById('main-chat-container').scrollTop);
+            }, 500);
+        }
+
+        function AppendResponseContent(content, id, isMathContent) {
+            var targetDivContainer = document.getElementById('main-chat-container');
+            var htmlContent = "";
+            if (isMathContent == true) {
+                htmlContent = content;
+            }
+            else {
+                htmlContent = marked(content);
+            }
+            var messageElement = $('#' + id);
+            $(messageElement).children('.loading-text').remove();
+            $(messageElement).html(htmlContent);
+
+            if (isMathContent == true) {
+                var libraryUrl = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+                reloadLibrary(libraryUrl);
+            }
+
+            localStorage.setItem("all-chats", targetDivContainer.innerHTML)
+
+            if (document.getElementById("btnSentText"))
+                document.getElementById("btnSentText").removeAttribute("disabled");
+            else
+                document.getElementById("btnSentAudio").removeAttribute("disabled");
+
+            setTimeout(function () {
+                document.getElementById('main-chat-container').scrollTop = document.getElementById('main-chat-container').scrollHeight;
+                console.log(document.getElementById('main-chat-container').scrollTop);
+            }, 500);
+
+            if (isMathContent == true) {
+                window.location.reload();
+            }
+        }
+
+        function reloadLibrary(libraryUrl) {
+            // Create a new script element
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = libraryUrl;
+            script.async = true;
+
+            // Remove the existing script (if any)
+            var existingScript = document.querySelector('script[src="' + libraryUrl + '"]');
+
+            if (existingScript) {
+                existingScript.remove();
+            }
+
+            // var existingStyle = document.querySelector('style[id="MJX-CHTML-styles"]');
+            // if (existingStyle) {
+            //     existingStyle.remove();
+            // }
+            // Append the new script to the head of the document
+            document.head.appendChild(script);
+        }
+
+        function isMainScrollVisible() {
+            return document.documentElement.scrollHeight > document.documentElement.clientHeight;
+        }
+
+
+        function adjustScroll() {
+            if (isMainScrollVisible()) {
+                $('#chatContainer').height("728px");
+                $('#settingContainer').height("728px");
+            }
+        }
+
+        function playAudio(messageId) {
+            var messageElement = document.getElementById(messageId);
+            var textContent = messageElement.textContent;
+            aiSpeech.getSpeechFromAzure(textContent);
+        }
+        let flag = true;
+        function recording(isRecordingStart) {
+
+            console.log(isRecordingStart);
+            const chatInput = document.querySelector("#chat-input");
+            chatInput.focus();
+            let recognition = null;
+            let recordedChunks = [];
+
+            if (isRecordingStart) {
+                console.log("recording start");
+                flag = true;
+
+                setTimeout(initFunction(), 300);
+            }
+
+          
+
+            function initFunction() {
+
+                chatInput.value = "";
+                chatInput.focus();
+                window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.interimResults = true;
+   
+                recognition.addEventListener("result", (e) => {
+                    var text = Array.from(e.results)
+                        .map((result) => result[0])
+                        .map((result) => result.transcript)
+                        .join("");
+
+                    if (e.results[0].isFinal) {
+                        console.log(e);
+                        if (text.toLocaleLowerCase() == "clear recording text") {
+                            chatInput.focus();
+                        } else {
+                            if (isRecordingStart == true && flag == true) {
+                                chatInput.value += text + " ";
+                                chatInput.focus();
+                            }
+                        }
+                    }
+                });
+
+                recognition.addEventListener("end", () => {
+                    if (flag) {
+                        recognition.start();
+                    } else {
+
+                    }
+                });
+                recognition.start();
+            }
+
+            if (isRecordingStart == false) {
+
+                flag = false;
+                isRecordingStart = false;
+                console.log("recording Stoping");
+                //recognition = null;
+                if (recognition)
+                    recognition.stop();
+
+                console.log("recording Stop");
+            }
+        }
+        function getRecordedText() {
+            const chatInput = document.querySelector("#chat-input");
+            var recoredText = chatInput.value
+            chatInput.value = "";
+            return recoredText;
+        }
+    </script>
+</body>
+
+</html>

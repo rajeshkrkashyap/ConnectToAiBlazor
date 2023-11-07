@@ -1,0 +1,109 @@
+﻿@page "/success"
+@using DataModel.Models;
+@using DataModel.Utility;
+@using Services;
+@inject AppSettings appSettings
+@inject DataService dataService
+
+@code {
+    OrderViewModel orderViewModel;
+
+    string orderId;
+    string subscriptionType;
+    string amount;
+    string currency;
+    string subscriptionStartDate;
+    protected override void OnInitialized()
+    {
+        orderViewModel = dataService.OrderViewModel;
+        orderId = (string)orderViewModel.OrderId;
+        subscriptionType = orderViewModel.SubscriptionType;
+        amount = orderViewModel.Amount;
+        currency = "USA";
+        subscriptionStartDate = DateTime.UtcNow.ToString();
+    }
+}
+
+<div class="main-content">
+    <div class="wrap-content container" id="container">
+        <section id="page-title">
+            <div class="row">
+                <div class="col-sm-8">
+                    <h1 class="mainTitle">Invoice</h1>
+                </div>
+            </div>
+        </section>
+        <div class="container-fluid container-fullw bg-white" style="color: #c1c1c4;background-color: #32333d !important;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="invoice">
+                        <div class="row invoice-logo">
+                            <div class="col-sm-6"><img alt="" src="~/images/ConnectoAi.png"></div>
+                            <div class="col-sm-6">
+                                <p class="">Order #: @orderId.Replace("order_", "")  @subscriptionStartDate <small class="text-light">Your order is in @currency</small></p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <h4>Your Detail:</h4>
+                                <div class="well">
+                                    <address>
+                                        <strong class="">Name: Rajesh Kashyap</strong>
+                                        <br />
+                                        <abbr title="Phone">Mobile #:9999292193</abbr>
+                                    </address>
+                                    <address>
+                                        <strong class="">E-mail:</strong> <a href="mailto:#">Rajesh.kr.kashyap@gmail.com</a>
+                                    </address>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <h4>We appreciate your decision.</h4>
+                                <div class="padding-bottom-30 padding-top-10 ">
+                                    Thanks for being a user. A detailed summary of your invoice is below.
+                                    <br>If you have questions, we're happy to help.
+                                    <br>Email support@connectto.ai or contact us through other support channels.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table class="table table-striped" style="color:#c1c1c4;">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Item</th>
+                                            <th class="hidden-480">Description</th>
+                                            <th class="hidden-480">Unit Cost</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color: #c1c1c4;">
+                                        <tr style="color: #c1c1c4;">
+                                            <td>1</td>
+                                            <td>@subscriptionType</td>
+                                            <td class="hidden-480">This subscription will be added to your account, extending the access period for our services.</td>
+                                            <td class="hidden-480">$@amount</td>
+                                            <td>$@amount</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 invoice-block">
+                                <ul class="list-unstyled amounts text-small">
+                                    <li class="text-extra-large  margin-top-15"><strong>Total:</strong> $@amount</li>
+                                </ul>
+                                <br><a href="#" onclick="window.print()" class="btn btn-primary d-print-none mr-3" style="float: right;margin-left:30px">Print <i class="fa fa-print"></i> </a>
+                                <a href="/Student/Question/Index" class="btn btn-outline-primary d-print-none" style="float: right;">Go to query page <i class="fa fa-forward"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,238 @@
+﻿@using Newtonsoft.Json;
+@using Services;
+@inherits PromptBaseComponent
+@inject DataService dataService
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-4" style="margin-top:20px;margin-left:10px;margin-right:10px">
+    <div class="col">
+        <MudSelect @bind-Value="SelectLanguage" Label="Select a response language!" IconSize="Size.Large" CloseIcon="@Icons.Material.Filled.Flag" AdornmentColor="Color.Tertiary">
+            @foreach (var item in LanguageList)
+            {
+                <MudSelectItem Value="@item">@item</MudSelectItem>
+            }
+        </MudSelect>
+    </div>
+    <div class="col">
+        <div class="col">
+            <MudSelect @bind-Value="ColorName" Label="Select important words color!" IconSize="Size.Large" CloseIcon="@Icons.Material.Filled.Colorize" AdornmentColor="Color.Tertiary">
+                @foreach (var item in ColorNames)
+                {
+                    <MudSelectItem Value="@item">@item</MudSelectItem>
+                }
+            </MudSelect>
+        </div>
+    </div>
+    <div class="col"><MudSwitch @bind-Checked="@ActivateSpeaker" Color="Color.Tertiary" Label="ON Speaker" LabelPosition="LabelPosition.End"></MudSwitch></div>
+    <div class="col"><MudSwitch @bind-Checked="@ActivateSave" Color="Color.Tertiary" Label="ON Save" LabelPosition="LabelPosition.End"></MudSwitch></div>
+
+</div>
+
+@code {
+    private bool _activateSpeaker = false;
+    private bool _activateSave = false;
+
+    private bool ActivateSpeaker
+    {
+        get { return _activateSpeaker; }
+        set
+        {
+            _activateSpeaker = value;
+            SetUserSetting("speaker", Convert.ToString(_activateSpeaker));
+        }
+    }
+
+    private bool ActivateSave
+    {
+        get { return _activateSave; }
+        set
+        {
+            _activateSave = value;
+            SetUserSetting("save", Convert.ToString(_activateSave));
+        }
+    }
+
+    string languageValue = "";
+
+    List<string> LanguageList { get; set; }
+
+    private string SelectLanguage
+    {
+        get { return languageValue; }
+        set
+        {
+            languageValue = value;
+            SetUserSetting("language", Convert.ToString(languageValue));
+        }
+    }
+    public enum LanguageOption
+    {
+        English,
+        Afrikaans,
+        Albanian,
+        Arabic,
+        Azerbaijani,
+        Basque,
+        Belarusian,
+        Bengali,
+        Bulgarian,
+        Burmese,
+        Catalan,
+        Chichewa,
+        Chinese,
+        Croatian,
+        Czech,
+        Danish,
+        Dutch,
+        EnglishUK,
+        EnglishUS,
+        Esperanto,
+        Estonian,
+        Finnish,
+        French,
+        Galician,
+        Georgian,
+        German,
+        Greek,
+        Gujarati,
+        HaitianCreole,
+        Hebrew,
+        Hindi,
+        Hungarian,
+        Icelandic,
+        Indonesian,
+        Irish,
+        Italian,
+        Japanese,
+        Javanese,
+        Kazakh,
+        Khmer,
+        Korean,
+        Kurdish,
+        Kyrgyz,
+        Lao,
+        Latin,
+        Latvian,
+        Lithuanian,
+        Luxembourgish,
+        Macedonian,
+        Malay,
+        Malayalam,
+        Malagasy,
+        MalaysianMalay,
+        Maltese,
+        Marathi,
+        Maori,
+        Mongolian,
+        Nepali,
+        Norwegian,
+        OzbekTili,
+        Oriya,
+        Pashto,
+        Persian,
+        Polish,
+        Portuguese,
+        Punjabi,
+        Romanian,
+        Russian,
+        Sesotho,
+        Shqip,
+        Sinhala,
+        Slovak,
+        Slovenian,
+        Somali,
+        Spanish,
+        Sundanese,
+        Swahili,
+        Swedish,
+        Tagalog,
+        Tatar,
+        Thai,
+        TraditionalChinese,
+        Turkish,
+        Ukrainian,
+        Urdu,
+        Uyghur,
+        Vietnamese,
+        Welsh,
+        Xhosa,
+        Yiddish,
+        Yoruba,
+        Zulu
+    }
+
+    string _colorName = "Dark Gray";
+    private string ColorName
+    {
+        get { return _colorName; }
+        set
+        {
+            _colorName = value;
+            SetUserSetting("color", Convert.ToString(_colorName));
+        }
+    }
+
+    List<string> ColorNames = new List<string>
+{
+    "Off-White",
+    "Black",
+    "Light Gray",
+    "Dark Gray",
+    "Charcoal Gray",
+    "Slate Gray",
+    "Navy Blue",
+    "Forest Green",
+    "Olive Green",
+    "Dark Brown",
+    "Burgundy"
+};
+
+    async void SetUserSetting(string settingtype, string value)
+    {
+        AppSettingCookie? appSettingCookie = await GetAppSettingCookie();
+        GetSetUserSettings(settingtype, value, appSettingCookie, appSettings);
+    }
+
+    private async Task<AppSettingCookie?> GetAppSettingCookie()
+    {
+        string appUserSettingInfoStr = await JS.InvokeAsync<string>("connectToAiApp.getCookieValue", "cookie_AppUserSetting");
+        var appSettingCookie = JsonConvert.DeserializeObject<AppSettingCookie>(appUserSettingInfoStr);
+        return appSettingCookie;
+    }
+    protected override void OnInitialized()
+    {
+        LanguageList = new List<string>(Enum.GetNames(typeof(LanguageOption)));
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            AppSettingCookie? appSettingCookie = await GetAppSettingCookie();
+            AppUserSettingService appUserSettingService = new AppUserSettingService(appSettings);
+            AppUserSetting appUserSetting = await appUserSettingService.GetById(appSettingCookie.Id); // get from database
+            if (!string.IsNullOrEmpty(appUserSetting.AllSettingsInJSON))
+            {
+                var userSetting = JsonConvert.DeserializeObject<UserSetting>(appUserSetting.AllSettingsInJSON);
+                if (userSetting != null)
+                {
+                    if (!string.IsNullOrEmpty(userSetting.IsSpeakerEnabled))
+                        _activateSpeaker = Convert.ToBoolean(userSetting.IsSpeakerEnabled);
+                    if (!string.IsNullOrEmpty(userSetting.IsSaveEnabled))
+                        _activateSave = Convert.ToBoolean(userSetting.IsSaveEnabled);
+                    if (!string.IsNullOrEmpty(userSetting.Language))
+                        languageValue = userSetting.Language;
+
+                    StateHasChanged();
+                }
+            }
+        }
+    }
+
+    private LanguageOption GetLanguageEnum(string languageStr)
+    {
+        if (Enum.TryParse<LanguageOption>(languageStr, out LanguageOption outlanguage))
+        {
+            return outlanguage;
+        }
+        return LanguageOption.English;
+    }
+}

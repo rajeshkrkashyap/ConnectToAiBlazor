@@ -1,0 +1,14 @@
+﻿<!-- ImageTextInput.razor -->
+
+<div class="image-text-input">
+    <img src="@ImageUrl" alt="Image" />
+    <input type="text" @bind="TextValue" />
+</div>
+
+@code {
+    [Parameter]
+    public string ImageUrl { get; set; }
+
+    [Parameter]
+    public string TextValue { get; set; }
+}

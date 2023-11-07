@@ -1,0 +1,38 @@
+﻿@using System.Globalization;
+@using Newtonsoft.Json;
+@using Services;
+@inherits PromptBaseComponent
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+@inject DataService dataService
+
+<div Class="row">
+    <div Class="col-md-6 col-sm-2">
+        <MudSelect @bind-Value="SubjectValue" Label="Select a Subject" IconSize="Size.Small" OpenIcon="@Icons.Material.Filled.Subject"
+                   AdornmentColor="Color.Tertiary" Style="width:50%">
+            @{
+                if (SubjectList != null)
+                {
+                    foreach (Subject subject in SubjectList)
+                    {
+                        <MudSelectItem Value="@subject.Id">@subject.Name</MudSelectItem>
+                    }
+                }
+            }
+        </MudSelect>
+    </div>
+    <div Class="col-md-6 col-sm-2">
+        <MudSelect @bind-Value="instructionValue" Label="@HelperText" IconSize="Size.Small" OpenIcon="@Icons.Material.Filled.Topic"
+                   AdornmentColor="Color.Tertiary" Style="width:50%">
+            @{
+                if (InstructionList != null && InstructionList.Count() > 0)
+                {
+                    foreach (var instruction in InstructionList)
+                    {
+                        <MudSelectItem Value="@instruction.Value">@instruction.Value</MudSelectItem>
+                    }
+                }
+            }
+        </MudSelect>
+    </div>
+</div>

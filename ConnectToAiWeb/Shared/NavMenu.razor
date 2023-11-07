@@ -1,0 +1,56 @@
+﻿<link href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" rel="stylesheet">
+
+<MudPaper Width="240px" Height="100%" Class="d-inline-flex py-3" Elevation="0" >
+    <MudNavMenu Class="mud-width-full" >
+        @*<MudText Typo="Typo.h6" Class="px-4">Material</MudText>
+        <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">Icons</MudText>
+        <MudDivider Class="my-2" />*@
+        <MudNavLink Href="/Subscriptions" Icon="@Icons.Material.Filled.Subscriptions"  IconColor="Color.Tertiary">Subscriptions</MudNavLink>
+        <MudNavLink Href="/account" Icon="@Icons.Material.Filled.AccountBalance" IconColor="Color.Tertiary">Account</MudNavLink>
+        <MudNavLink Href="/private/Index" Icon="@Icons.Material.Filled.QuestionAnswer" IconColor="Color.Tertiary">Prompt</MudNavLink>
+        <MudNavGroup Title="Subject" Icon="@Icons.Material.Filled.Subject" Expanded="true" IconColor="Color.Tertiary">
+            <MudNavLink Href="/counter" Icon="@Icons.Material.Filled.Storage" IconColor="Color.Tertiary">Servers</MudNavLink>
+        </MudNavGroup>
+    </MudNavMenu>
+</MudPaper>
+
+@*<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">ConnecttoAi</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
+*@

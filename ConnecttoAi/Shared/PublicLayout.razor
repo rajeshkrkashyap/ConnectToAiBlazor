@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudImage Src="/images/ConnecttoAi.svg" Width="250"></MudImage>
+        <MudSpacer />
+        <MudIconButton Href="/signup" Icon="@Icons.Material.Outlined.AppRegistration" Color="Color.Inherit" Title="Sign Up"></MudIconButton>
+        <MudIconButton Href="/login" Icon="@Icons.Material.Outlined.Login" Color="Color.Inherit" Title="Login" />
+    </MudAppBar>
+
+    <MudMainContent Style="margin:15px 15px 15px 15px">
+        @Body
+    </MudMainContent>
+</MudLayout>
+@code {
+}

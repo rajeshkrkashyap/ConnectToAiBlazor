@@ -1,0 +1,171 @@
+﻿@page "/subscriptions"
+@using Services;
+@using System.Security.Cryptography
+@using System.Text;
+@inject DataService dataService
+<MudGrid Style="width: calc(100% + 0px); margin: 0px;">
+    <MudItem xs="6" sm="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack Row="false">
+                <h1>$5 Monthly</h1>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OneMonth">Add Subscription</MudButton>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="6" sm="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack Row="false">
+                <h1>$10 For 3 Month</h1>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ThreeMonths">Add Subscription</MudButton>
+            </MudStack>
+
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="6" sm="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack Row="false">
+                <h1>$20 For 6 Month</h1>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SixMonths">Add Subscription</MudButton>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="6" sm="3">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-8">
+            <MudStack Row="false">
+                <h1>$40 For 12 Month</h1>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="TwelveMonths">Add Subscription</MudButton>
+            </MudStack>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    string key = "rzp_test_QBJMB3YSkjA0N4";// "rzp_test_mfNYGvVNxTyjrB";
+    string secret = "3XMDUz8TJPVtW8oGGztXJHE2";//"bJ5byMWFzZnDgsBEjVHygNkt";
+    string encryptionKey = "0123456789abcdef";
+    string tranjactionId = Guid.NewGuid().ToString();
+    private async Task OneMonth()
+    {
+        string subscriptionType = "OneMonth";
+        if (await PrepareOrderForSubsctiptimn(subscriptionType))
+        {
+            navigation.NavigateTo("/subscriptionType");
+        }
+    }
+    private async Task ThreeMonths()
+    {
+        string subscriptionType = "ThreeMonths";
+        if (await PrepareOrderForSubsctiptimn(subscriptionType))
+        {
+            navigation.NavigateTo("/subscriptionType");
+        }
+
+    }
+    private async Task SixMonths()
+    {
+        string subscriptionType = "SixMonths";
+        if (await PrepareOrderForSubsctiptimn(subscriptionType))
+        {
+            navigation.NavigateTo("/subscriptionType");
+        }
+
+    }
+    private async Task TwelveMonths()
+    {
+        string subscriptionType = "TwelveMonths";
+        if (await PrepareOrderForSubsctiptimn(subscriptionType))
+        {
+            navigation.NavigateTo("/subscriptionType");
+        }
+
+    }
+
+    private async Task<OrderViewModel> CanculateSubscription(string subscriptionType)
+    {
+        OrderViewModel orderViewModel = new OrderViewModel();
+        if (subscriptionType == "OneMonth")
+        {
+            orderViewModel.Amount = "4.99";
+        }
+        else if (subscriptionType == "ThreeMonths")
+        {
+            orderViewModel.Amount = "11.99";
+        }
+        else if (subscriptionType == "SixMonths")
+        {
+            orderViewModel.Amount = "19.99";
+        }
+        else if (subscriptionType == "TwelveMonths")
+        {
+            orderViewModel.Amount = "39.99";
+        }
+
+        orderViewModel.SubscriptionType = subscriptionType;
+        orderViewModel.Email = "rajesh.kr.kashyap@gmail.com"; // AppUserDetail.Email;
+        orderViewModel.Name = "Rajesh Kashyap";// AppUserDetail.Name;
+        ServiceService serviceService = new ServiceService(appSettings);
+        var service = await serviceService.GetByName("Tokens");
+
+        orderViewModel.ServiceId = service.Id.ToString();
+        var tokenValuePerK = service.Cost;
+        var tokensPerK = 1000;
+
+        var tokens = (Convert.ToDecimal(orderViewModel.Amount) / tokenValuePerK) * tokensPerK;
+
+        orderViewModel.Tokens = Convert.ToString(tokens);
+
+        return orderViewModel;
+    }
+
+    static string Encrypt(string plainText, string key)
+    {
+        using (AesManaged aesAlg = new AesManaged())
+        {
+            aesAlg.Key = Encoding.UTF8.GetBytes(key);
+            aesAlg.IV = new byte[16]; // Use a proper initialization vector (IV) in production
+
+            ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+
+            using (MemoryStream msEncrypt = new MemoryStream())
+            {
+                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                    {
+                        swEncrypt.Write(plainText);
+                    }
+                }
+                return Convert.ToBase64String(msEncrypt.ToArray());
+            }
+        }
+    }
+
+    async Task<bool> PrepareOrderForSubsctiptimn(string subscriptionType)
+    {
+        try
+        {
+            OrderViewModel orderViewModel = await CanculateSubscription(subscriptionType);
+            Dictionary<string, object> orderInput = new Dictionary<string, object>();
+            //orderInput.Add("customerName", orderViewModel.Name);
+            orderInput.Add("amount", Convert.ToInt32(50));
+            orderInput.Add("currency", "USD");
+            orderInput.Add("receipt", tranjactionId);
+
+            Razorpay.Api.RazorpayClient client = new Razorpay.Api.RazorpayClient(key, secret);
+            Razorpay.Api.Order order = client.Order.Create(orderInput);
+            var orderId = order.Attributes["id"].Value;
+            orderViewModel.OrderId = orderId;
+
+            string encryptionStr = "USD" + "," + orderViewModel.ServiceId.ToString() + "," + orderViewModel.Amount + "," + orderViewModel.SubscriptionType;
+            orderViewModel.EncryptedStr = Encrypt(encryptionStr, encryptionKey);
+
+            dataService.OrderViewModel = orderViewModel;
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+    }
+}

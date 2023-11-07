@@ -1,0 +1,112 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="true">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudImage Src="@logo" Width="150"></MudImage>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.DarkMode" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleTheme())" Style="@darkMode" />
+        <MudIconButton Icon="@Icons.Material.Filled.LightMode" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleTheme())" Style="@lightMode" />
+
+        <MudIconButton Href="/logout" Icon="@Icons.Material.Outlined.Logout" Color="Color.Inherit" Title="Login" />
+        <MudIconButton Icon="@Icons.Material.Filled.LastPage" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleEndDrawer())" Style="@lastPage" />
+        <MudIconButton Icon="@Icons.Material.Filled.FirstPage" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleEndDrawer())" Style="@firstPage" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="2" ClipMode="DrawerClipMode.Always">
+        @*<MudDrawerHeader>
+        style=background-color:#0b025b
+        <MudImage Src="@logo" Width="210"></MudImage>
+        </MudDrawerHeader>*@
+        <NavMenu></NavMenu>
+    </MudDrawer>
+
+    <MudDrawer Width="12%" @bind-Open="@openEnd" Fixed="true" Anchor="Anchor.End" Elevation="2" Variant="@DrawerVariant.Persistent" Style="margin-top:55px">
+        <MudPaper Width="100%" Height="100%" Elevation="2">
+            <MudDrawerHeader>
+                <MudText Typo="Typo.h6">Subject</MudText>
+            </MudDrawerHeader>
+            <MudNavMenu>
+                <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AccountBox">Profile</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.ShoppingCart">Orders</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.History">Order History</MudNavLink>
+            </MudNavMenu>
+        </MudPaper>
+    </MudDrawer>
+
+
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+@code {
+    bool _drawerOpen = true;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    [CascadingParameter]
+    public bool Rtl { get; set; }
+    bool openEnd = false;
+    string firstPage = "display:none";
+    string lastPage = "display:block";
+    void ToggleEndDrawer()
+    {
+        openEnd = !openEnd;
+        if (openEnd)
+        {
+            firstPage = "display:none";
+            lastPage = "display:block";
+        }
+        else
+        {
+            lastPage = "display:none";
+            firstPage = "display:block";
+        }
+    }
+
+    string darkMode = "display:block";
+    string lightMode = "display:none";
+    string logo = "/images/ColorLogo.png";
+
+    void ToggleTheme()
+    {
+        _isDarkMode = !_isDarkMode;
+        if (_isDarkMode)
+        {
+            logo = "/images/ColorLogo.png";
+            lightMode = "display:none";
+            darkMode = "display:block";
+            ToggleStylesheetAsync("dark");
+        }
+        else
+        {
+            logo = "/images/ColorLogo.png";
+            darkMode = "display:none";
+            lightMode = "display:block";
+            ToggleStylesheetAsync("light");
+        }
+        StateHasChanged();
+    }
+
+    private async Task ToggleStylesheetAsync(string styleSheetName)
+    {
+        await JS.InvokeVoidAsync("toggleStylesheet", styleSheetName);
+    }
+
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = true;// await _mudThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
+}
