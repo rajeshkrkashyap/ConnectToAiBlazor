@@ -11,7 +11,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link id="stylesheetLink" rel="stylesheet" href="dark.css" />
+    <link id="themeStylesheetLink" rel="stylesheet" href="/css/dark.css" />
+    <link id="footerstylesheetLink" rel="stylesheet" href="/css/smallfooter.css" />
 </head>
 
 <body>
@@ -40,9 +41,13 @@
  
     <!-- Speech SDK USAGE -->
     <script>
-        function toggleStylesheet(styleSheetName) {
-            var stylesheetLink = document.getElementById("stylesheetLink");
-            stylesheetLink.href = styleSheetName + ".css";
+        function toggleThemeStylesheet(styleSheetName) {
+            var stylesheetLink = document.getElementById("themeStylesheetLink");
+            stylesheetLink.href = "/css/" + styleSheetName + ".css";
+        }
+        function toggleFooterStylesheet(styleSheetName) {
+            var stylesheetLink = document.getElementById("footerstylesheetLink");
+            stylesheetLink.href = "/css/" + styleSheetName + ".css";
         }
 
         function UserQueryContent(userPrompt, id) {
@@ -170,7 +175,6 @@
             return document.documentElement.scrollHeight > document.documentElement.clientHeight;
         }
 
-
         function adjustScroll() {
             if (isMainScrollVisible()) {
                 $('#chatContainer').height("728px");
@@ -183,6 +187,7 @@
             var textContent = messageElement.textContent;
             aiSpeech.getSpeechFromAzure(textContent);
         }
+
         let flag = true;
         function recording(isRecordingStart) {
 

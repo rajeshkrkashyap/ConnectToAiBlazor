@@ -1,5 +1,6 @@
 ﻿@inherits LayoutComponentBase
-<MudThemeProvider />
+@inject IJSRuntime JS
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
@@ -15,4 +16,64 @@
     </MudMainContent>
 </MudLayout>
 @code {
+    [CascadingParameter]
+    public bool Rtl { get; set; }
+    bool openEnd = false;
+    string firstPage = "display:none";
+    string lastPage = "display:block";
+    void ToggleEndDrawer()
+    {
+        openEnd = !openEnd;
+        if (openEnd)
+        {
+            firstPage = "display:none";
+            lastPage = "display:block";
+        }
+        else
+        {
+            lastPage = "display:none";
+            firstPage = "display:block";
+        }
+    }
+
+    string darkMode = "display:block";
+    string lightMode = "display:none";
+    string logo = "/images/ColorLogo.png";
+
+    void ToggleTheme()
+    {
+        _isDarkMode = !_isDarkMode;
+        if (_isDarkMode)
+        {
+            logo = "/images/ColorLogo.png";
+            lightMode = "display:none";
+            darkMode = "display:block";
+            ToggleStylesheetAsync("dark");
+        }
+        else
+        {
+            logo = "/images/ColorLogo.png";
+            darkMode = "display:none";
+            lightMode = "display:block";
+            ToggleStylesheetAsync("light");
+        }
+
+    }
+
+    private async Task ToggleStylesheetAsync(string styleSheetName)
+    {
+        await JS.InvokeVoidAsync("toggleStylesheet", styleSheetName);
+    }
+
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = true;// await _mudThemeProvider.GetSystemPreference();
+            StateHasChanged();
+        }
+    }
 }
