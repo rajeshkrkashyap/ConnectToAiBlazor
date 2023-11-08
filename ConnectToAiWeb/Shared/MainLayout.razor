@@ -4,6 +4,7 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 <MudLayout>
+
     <MudAppBar Elevation="1" Dense="true">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudImage Src="@logo" Width="150"></MudImage>
@@ -45,6 +46,15 @@
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+        if (_drawerOpen)
+        {
+            ToggleFooterStylesheetAsync("smallfooter");
+
+        }
+        else
+        {
+            ToggleFooterStylesheetAsync("largefooter");
+        }
     }
 
     [CascadingParameter]
@@ -79,21 +89,25 @@
             logo = "/images/ColorLogo.png";
             lightMode = "display:none";
             darkMode = "display:block";
-            ToggleStylesheetAsync("dark");
+            ToggleThemeStylesheetAsync("dark");
         }
         else
         {
             logo = "/images/ColorLogo.png";
             darkMode = "display:none";
             lightMode = "display:block";
-            ToggleStylesheetAsync("light");
+            ToggleThemeStylesheetAsync("light");
         }
 
     }
 
-    private async Task ToggleStylesheetAsync(string styleSheetName)
+    private async Task ToggleThemeStylesheetAsync(string styleSheetName)
     {
-        await JS.InvokeVoidAsync("toggleStylesheet", styleSheetName);
+        await JS.InvokeVoidAsync("toggleThemeStylesheet", styleSheetName);
+    }
+    private async Task ToggleFooterStylesheetAsync(string styleSheetName)
+    {
+        await JS.InvokeVoidAsync("toggleFooterStylesheet", styleSheetName);
     }
 
     private bool _isDarkMode;

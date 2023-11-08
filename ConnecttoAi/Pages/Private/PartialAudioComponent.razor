@@ -1,7 +1,7 @@
 ﻿@using Newtonsoft.Json;
 @using Services;
 @inherits PromptBaseComponent
-
+@implements IAsyncDisposable
 <MudStack Row="true">
     <MudToggleIconButton @bind-Toggled="@MicOn" Variant="Variant.Outlined"
                          Icon="@Icons.Material.Filled.MicOff" Color="@Color.Default" Title="Off"
@@ -72,6 +72,13 @@
     private async Task StartRecording(bool value)
     {
         await JS.InvokeVoidAsync("recording", value);
+    }
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
     }
 }
 
