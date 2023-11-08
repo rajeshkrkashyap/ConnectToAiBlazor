@@ -7,6 +7,8 @@
     <MudAppBar Elevation="1">
         <MudImage Src="/images/ConnecttoAi.svg" Width="250"></MudImage>
         <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.DarkMode" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleTheme())" Style="@darkMode" />
+        <MudIconButton Icon="@Icons.Material.Filled.LightMode" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleTheme())" Style="@lightMode" />
         <MudIconButton Href="/signup" Icon="@Icons.Material.Outlined.AppRegistration" Color="Color.Inherit" Title="Sign Up"></MudIconButton>
         <MudIconButton Href="/login" Icon="@Icons.Material.Outlined.Login" Color="Color.Inherit" Title="Login" />
     </MudAppBar>
