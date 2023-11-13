@@ -56,21 +56,22 @@
     }
 
     #region JAVA SCRIPT Library
-    private IJSObjectReference? module1;
+    private IJSObjectReference? module;
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            module1 = await JS.InvokeAsync<IJSObjectReference>("import", "/js/chat.js"); // this is a sample code not in use
-            await JS.InvokeVoidAsync("loadStorageData.loadDataFromLocalstorage", UserDetail.UserID);
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/textToSpeech.js");
+            //module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/chat.js"); // this is a sample code not in use
+            await JS.InvokeVoidAsync("loadChat.dataFromLocalstorage", UserDetail.UserID);
         }
     }
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        if (module1 is not null)
+        if (module is not null)
         {
-            await module1.DisposeAsync();
+            await module.DisposeAsync();
         }
     }
     #endregion

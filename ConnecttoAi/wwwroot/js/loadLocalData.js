@@ -1,5 +1,5 @@
-﻿window.loadStorageData = {
-    loadDataFromLocalstorage: function () {
+﻿window.loadChat = {
+    dataFromLocalstorage: function (userId) {
         // Load saved chats and theme from local storage and apply/add on the page
 
         const defaultText = `<div class="default-text"><h1>Start a conversation</h1></div>`;
@@ -8,7 +8,7 @@
         //allChatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
         var mainChatContainer = document.getElementById("main-chat-container");
         if (mainChatContainer != null)
-            mainChatContainer.innerHTML = localStorage.getItem("all-chats");
+            mainChatContainer.innerHTML = localStorage.getItem("all-chats" + userId);
 
 
         var libraryUrl = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';

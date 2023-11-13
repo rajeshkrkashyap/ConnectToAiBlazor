@@ -83,7 +83,7 @@
             {
                 module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/textToSpeech.js");
                 //module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/chat.js"); // this is a sample code not in use
-                await JS.InvokeVoidAsync("loadStorageData.loadDataFromLocalstorage");
+                await JS.InvokeVoidAsync("loadChat.dataFromLocalstorage");
             }
             catch (Exception ex)
             {
@@ -104,3 +104,34 @@
     #endregion
 }
 
+<script>
+    dataFromLocalstorage: function (userId) {
+        // Load saved chats and theme from local storage and apply/add on the page
+
+        const defaultText = `<div class="default-text"><h1>Start a conversation</h1></div>`;
+
+        var allChatContainer = document.getElementById("all-chat-container");
+        //allChatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
+        var mainChatContainer = document.getElementById("main-chat-container");
+        if (mainChatContainer != null)
+            mainChatContainer.innerHTML = localStorage.getItem("all-chats" + userId);
+
+
+        var libraryUrl = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+        reloadLibrary(libraryUrl);
+ 
+        let paragraphs = document.querySelectorAll('p');
+        paragraphs.forEach(function (paragraph) {
+            if (paragraph.innerHTML.trim() === "") {
+                paragraph.remove();
+            }
+        });
+        //adjustScroll();
+        $(document).ready(function () {
+            setTimeout(function () {
+                document.getElementById('main-chat-container').scrollTop = document.getElementById('main-chat-container').scrollHeight;
+                console.log(document.getElementById('main-chat-container').scrollTop);
+            }, 500);
+        });
+    }
+</script>

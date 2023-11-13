@@ -1,5 +1,5 @@
-﻿window.loadStorageData = {
-    loadDataFromLocalstorage: function (userId) {
+﻿window.loadChat = {
+    dataFromLocalstorage: function (userId) {
         // Load saved chats and theme from local storage and apply/add on the page
 
         const defaultText = `<div class="default-text"><h1>Start a conversation</h1></div>`;
