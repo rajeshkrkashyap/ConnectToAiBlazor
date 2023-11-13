@@ -17,7 +17,7 @@ var configuration = builder.Configuration;
 var appSettingValues = new AppSettings();
 configuration.GetSection("Settings").Bind(appSettingValues);
 builder.Services.AddSingleton(appSettingValues);
-
+ 
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
