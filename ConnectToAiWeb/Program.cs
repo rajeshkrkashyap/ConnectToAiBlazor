@@ -2,7 +2,6 @@ using ConnectToAiWeb.Data;
 using MudBlazor.Services;
 using DataModel.Utility;
 using DataModel.Models;
-using DataModel.Entities;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
