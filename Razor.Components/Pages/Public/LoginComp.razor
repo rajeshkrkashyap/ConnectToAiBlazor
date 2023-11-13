@@ -1,0 +1,221 @@
+﻿@using System.IdentityModel.Tokens.Jwt;
+@inherits BaseComponent
+@inject AppSettings appSettings
+@inject HttpClient httpClient
+@inject IJSRuntime JS
+@inject NavigationManager navigation
+<MudPaper Elevation="0" Class="pa-8" Style="margin-top:50px;margin-bottom:50px;width:50%;" Outlined="false">
+    <EditForm Model="@loginViewModel" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard Elevation="0">
+            <MudCardHeader><h3>Login</h3></MudCardHeader>
+            <MudCardContent>
+                <MudTextField Label="Email" Class="mt-3" HelperText="Please enter your registered email"
+                @bind-Value="loginViewModel.Email" For="@(() => loginViewModel.Email)" />
+                <MudTextField Label="Password" HelperText="Please enter your password" Class="mt-3"
+                @bind-Value="loginViewModel.Password" For="@(() => loginViewModel.Password)" InputType="InputType.Password" />
+
+                <MudInputLabel Class="mt-3">Don't have account?</MudInputLabel>
+                <MudLink Href="/signup">Sign Up now</MudLink>
+            </MudCardContent>
+            <MudCardActions>
+                @*<MudLink Href="/signup">Forget password?</MudLink>*@
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" Disabled="@IsDisabled"
+                           data-aos='@AddAnimation' data-aos-delay='@Delay' data-aos-duration='@Duration'>
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Color="Color.Default" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        <MudText>Login</MudText>
+                    }
+                </MudButton>
+            </MudCardActions>
+            <MudText Color="@Color.Error" Style="margin-left:20px;padding-bottom:15px">@message</MudText>
+        </MudCard>
+    </EditForm>
+</MudPaper>
+@code {
+    LoginViewModel loginViewModel = new LoginViewModel();
+    bool success;
+    string message = "";
+    private bool _processing = false;
+    public bool IsDisabled { get; set; }
+    private async Task OnValidSubmit(EditContext context)
+    {
+        _processing = true;
+        IsDisabled = true;
+        Services.AuthService authService = new Services.AuthService(appSettings);
+        await LoginOnPostAsync(await authService.LoginAsync(loginViewModel));
+
+        if (message.ToLower() == "success")
+        {
+            navigation.NavigateTo("/private/Index");
+        }
+        _processing = false;
+        IsDisabled = false;
+        StateHasChanged();
+    }
+    private async Task LoginOnPostAsync(HttpResponseMessage response)
+    {
+        if (response != null && response.IsSuccessStatusCode)
+        {
+            var responseBody = await response.Content.ReadAsStringAsync();
+            if (responseBody != null)
+            {
+                var mainResponse = JsonConvert.DeserializeObject<MainResponse>(responseBody);
+
+                if (mainResponse != null && mainResponse.IsSuccess)
+                {
+                    if (mainResponse.Content != null)
+                    {
+                        var authenticationResponse = JsonConvert.DeserializeObject<AuthenticationResponse>(mainResponse.Content.ToString());
+                        if (authenticationResponse != null)
+                        {
+                            var handler = new JwtSecurityTokenHandler();
+                            var jsontoken = handler.ReadToken(authenticationResponse.AccessToken) as JwtSecurityToken;
+                            if (!string.IsNullOrWhiteSpace(authenticationResponse.AccessToken))
+                            {
+                                string userID = jsontoken.Claims.FirstOrDefault(f => f.Type == JwtRegisteredClaimNames.NameId).Value;
+                                string name = jsontoken.Claims.FirstOrDefault(f => f.Type == JwtRegisteredClaimNames.UniqueName).Value;
+                                string userAvatar = jsontoken.Claims.FirstOrDefault(f => f.Type == "UserAvatar").Value;
+                                string role = jsontoken.Claims.FirstOrDefault(f => f.Type == "role").Value;
+                                string mobileNo = jsontoken.Claims.FirstOrDefault(f => f.Type == "MobileNumber").Value;
+                                string balanceTokens = jsontoken.Claims.FirstOrDefault(f => f.Type == "BalanceTokens").Value;
+                                string subscriptionEndDate = jsontoken.Claims.FirstOrDefault(f => f.Type == "SubscriptionEndDate").Value;
+                                string email = loginViewModel.Email;
+
+                                var userDetail = new UserDetail
+                                    {
+                                        Email = email,
+                                        Name = name,
+                                        Role = role,
+                                        AccessToken = authenticationResponse.AccessToken,
+                                        RefreshToken = authenticationResponse.RefreshToken,
+                                        UserAvatar = !string.IsNullOrWhiteSpace(userAvatar) ? $"{ApiUrl.ApiBaseURL}/{userAvatar}" : "",
+                                        UserID = userID,
+                                        Tokens = Convert.ToDecimal(balanceTokens),
+                                        //AppSettingCookie = appSettingCookie
+                                    };
+
+                                await UserCookiesManagement(null, subscriptionEndDate, userDetail);
+                            }
+                            else
+                            {
+                                //ModelState.AddModelError(string.Empty, "Invalid Token created");
+                                message = "Invalid Token created";
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (mainResponse != null && mainResponse.ErrorMessage != null)
+                    {
+                        //ModelState.AddModelError(string.Empty, mainResponse.ErrorMessage);
+                        message = mainResponse.ErrorMessage;
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (response != null && response.ReasonPhrase != null)
+            {
+                //ModelState.AddModelError(string.Empty, response.ReasonPhrase);
+                message = response.ReasonPhrase;
+            }
+        }
+    }
+    private async Task UserCookiesManagement(string returnUrl, string subscriptionEndDate, UserDetail userDetail)
+    {
+        string userDetailInfoStr = JsonConvert.SerializeObject(userDetail);
+
+        try
+        {
+            
+            //HttpContext.Response.Cookies.Delete("AuthToken");
+            await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "AuthToken");
+            //HttpContext.Response.Cookies.Delete("ReturnURL");
+            await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "ReturnURL");
+
+            //HttpContext.Response.Cookies.Append("AuthToken", userDetailInfoStr, cookieOptions);
+            await JS.InvokeVoidAsync("connectToAiApp.setCookie", "AuthToken", userDetailInfoStr);
+
+            await AppUserSettingCookie(subscriptionEndDate, userDetail);
+
+            message = "success";
+        }
+        catch (Exception ex)
+        {
+            message = "Unable to set cookie";
+        }
+    }
+    private async Task AppUserSettingCookie(string subscriptionEndDate, UserDetail userDetail)
+    {
+        Services.AppUserSettingService appUserSettingService = new Services.AppUserSettingService(appSettings);
+        var appUserSetting = await appUserSettingService.GetAppSettingByAppUserIdAsync(userDetail.UserID);
+
+        var subject = "";
+        if (appUserSetting.Subject != null)
+        {
+            subject = appUserSetting.Subject.Name;
+        }
+        var appSettingCookie = new AppSettingCookie
+            {
+                Id = appUserSetting.Id,
+                AppUserId = appUserSetting.AppUserId,
+                InputType = appUserSetting.InputType,
+                IsQueryActive = appUserSetting.IsQueryActive.ToString(),
+                Language = appUserSetting.Language,
+                Subject = subject,
+                SubjectId = appUserSetting.SubjectId,
+                SubscriptionEndDate = Convert.ToDateTime(subscriptionEndDate)
+            };
+
+        try
+        {
+            //HttpContext.Response.Cookies.Delete("cookie_AppUserSetting");
+            await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "cookie_AppUserSetting");
+
+            var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(1), // Set cookie expiration date
+                    SameSite = SameSiteMode.None,      // Specify same site policy
+                    Secure = true                      // Use secure cookie (HTTPS)
+                };
+            JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                };
+
+            string appUserSettingInfoStr = JsonConvert.SerializeObject(appSettingCookie, settings);
+            //HttpContext.Response.Cookies.Append("cookie_AppUserSetting", appUserSettingInfoStr, cookieOptions);
+            //TODO Add Cookieeeeeeeee
+            await JS.InvokeVoidAsync("connectToAiApp.setCookie", "cookie_AppUserSetting", appUserSettingInfoStr);
+            await SetSubjectCookie();
+
+        }
+        catch (Exception ex)
+        {
+            message = "Unable to set cookie";
+        }
+    }
+    private async Task SetSubjectCookie()
+    {
+        Services.SubjectService subjectService = new Services.SubjectService(appSettings);
+        var subjectList = await subjectService.ListAsync();
+
+        await JS.InvokeVoidAsync("connectToAiApp.deleteCookie", "cookie_Subjects");
+
+        JsonSerializerSettings settings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+
+        string subjectListStr = JsonConvert.SerializeObject(subjectList, settings);
+        await JS.InvokeVoidAsync("connectToAiApp.setCookie", "cookie_Subjects", subjectListStr);
+    }
+}

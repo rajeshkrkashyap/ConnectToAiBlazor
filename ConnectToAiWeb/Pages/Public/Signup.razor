@@ -1,3 +1,35 @@
 ﻿@page "/signup"
 @layout PublicLayout
-<SignupComponent/>
+
+<div class="row">
+    <div class="row" style="margin-top:64px">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <MudPaper Elevation="24" Class="pa-0 ma-1">
+                <MudStack Row="true">
+                    <MudPaper Elevation="0" Style="width:100%;" Class="box-background-color">
+                        <h1 style="padding:30px;margin-top:100px">UNLOCK THE POWER OF AI-ASSISTED LEARNING!</h1>
+                        <h3 style="padding:30px;">
+                            Supercharge your academic journey with personalized learning
+                            experiences powered by cutting-edge AI technology. Register now and
+                            accelerate your understanding of any subject, making every study session count!
+                        </h3>
+                    </MudPaper>
+                    <SignupComp/>
+                </MudStack>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label style="float:right;padding:5px;margin-top:3px">© 2023 - ConnectToAi </label>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="/PrivacyStatement" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="float:left;padding:5px">Privacy statement</a>
+                        <a href="/TermsOfService" class="mud-typography mud-link mud-primary-text mud-link-underline-hover mud-typography-body1" style="float:left;padding:5px">Terms of service</a>
+                    </div>
+                </div>
+            </MudPaper>
+        </div>
+    </div>
+</div>
+@code {
+
+}

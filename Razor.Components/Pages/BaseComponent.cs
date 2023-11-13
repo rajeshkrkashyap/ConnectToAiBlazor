@@ -1,4 +1,5 @@
-﻿using DataModel.Utility;
+﻿using DataModel.Models;
+using DataModel.Utility;
 using Microsoft.AspNetCore.Components;
 
 namespace Razor.Components.Pages
@@ -8,5 +9,5 @@ namespace Razor.Components.Pages
         protected string AddAnimation = AnimationName.FadeDown;
         protected string Duration = "4000";
         protected string Delay = "50";
-   }
+    }
 }

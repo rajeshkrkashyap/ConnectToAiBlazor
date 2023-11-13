@@ -1,0 +1,76 @@
+﻿@inherits BaseComponent
+@using System.ComponentModel.DataAnnotations
+<MudPaper Elevation="0" Class="pa-8" Style="margin-top:50px;margin-bottom:50px;width:50%;" Outlined="false">
+    <EditForm Model="@signUpViewModel" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard Elevation="0">
+            <MudCardHeader><h3>Sign Up</h3></MudCardHeader>
+            <MudCardContent>
+                <MudTextField Label="First name" HelperText="Max. 50 characters"
+                @bind-Value="signUpViewModel.Name" For="@(() => signUpViewModel.Name)" />
+                <MudTextField Label="Email" Class="mt-3"
+                @bind-Value="signUpViewModel.Email" For="@(() => signUpViewModel.Email)" />
+                <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                @bind-Value="signUpViewModel.Password" For="@(() => signUpViewModel.Password)" InputType="InputType.Password" />
+                <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+                @bind-Value="signUpViewModel.ConfirmPassword" For="@(() => signUpViewModel.ConfirmPassword)" InputType="InputType.Password" />
+                <MudInputLabel Class="mt-3">Aready have account?</MudInputLabel>
+                <MudLink Href="/">Login</MudLink>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" Disabled="@IsDisabled"
+                           data-aos='@AddAnimation' data-aos-delay='@Delay' data-aos-duration='@Duration'>
+                    @if (_processing)
+                    {
+                        <MudProgressCircular Class="ms-n1" Color="Color.Default" Size="Size.Small" Indeterminate="true" />
+                        <MudText Class="ms-2">Processing</MudText>
+                    }
+                    else
+                    {
+                        <MudText>Register</MudText>
+                    }
+                </MudButton>
+                @* <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton> *@
+            </MudCardActions>
+            <MudText Color="@Color.Error" Style="margin-left:20px;padding-bottom:15px">@message</MudText>
+        </MudCard>
+    </EditForm>
+</MudPaper>
+
+@code {
+    RegisterViewModel signUpViewModel = new RegisterViewModel();
+    bool success;
+    string message = "";
+    private bool _processing = false;
+    public bool IsDisabled { get; set; }
+    private async Task OnValidSubmit(EditContext context)
+    {
+        _processing = true;
+        IsDisabled = true;
+        Services.AuthService authService = new Services.AuthService(appSettings);
+        HttpResponseMessage response = await authService.RegisterAsync(signUpViewModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var mainResponse = JsonConvert.DeserializeObject<MainResponse>(responseBody);
+            if (mainResponse != null && mainResponse.IsSuccess)
+            {
+                navigation.NavigateTo("RegisterConfirmation/?email=" + signUpViewModel.Email);
+                //return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+            }
+            else
+            {
+                message = mainResponse.ErrorMessage;
+            }
+        }
+        else
+        {
+            message = "Error during registration!";
+        }
+
+        _processing = false;
+        IsDisabled = false;
+        StateHasChanged();
+    }
+}

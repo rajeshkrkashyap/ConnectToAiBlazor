@@ -10,7 +10,7 @@
         <MudItem xs="12" sm="6">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField Label="First name" HelperText="Max. 8 characters"
+                    <MudTextField Label="First name" HelperText="Max. 50 characters"
                     @bind-Value="model.Username" For="@(() => model.Username)" />
                     <MudTextField Label="Email" Class="mt-3"
                     @bind-Value="model.Email" For="@(() => model.Email)" />
@@ -35,7 +35,7 @@
     public class RegisterAccountForm
     {
         [Required]
-        [StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
+        [StringLength(50, ErrorMessage = "Name length can't be more than 50.")]
         public string Username { get; set; }
 
         [Required]

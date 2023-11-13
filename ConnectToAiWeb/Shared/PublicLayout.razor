@@ -3,9 +3,9 @@
 <MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
-<MudLayout>
-    <MudAppBar Elevation="1">
-        <MudImage Src="/images/ConnecttoAi.svg" Width="250"></MudImage>
+<MudLayout Style="height:100%">
+    <MudAppBar Elevation="1" Dense="true">
+        <MudImage Src="/images/ConnecttoAi.svg" Width="150"></MudImage>
         <MudSpacer />
         <MudIconButton Icon="@Icons.Material.Filled.DarkMode" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleTheme())" Style="@darkMode" />
         <MudIconButton Icon="@Icons.Material.Filled.LightMode" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleTheme())" Style="@lightMode" />
@@ -13,7 +13,7 @@
         <MudIconButton Href="/Login" Icon="@Icons.Material.Outlined.Login" Color="Color.Inherit" Title="Login" />
     </MudAppBar>
 
-    <MudMainContent Style="margin:15px 15px 15px 15px">
+    <MudMainContent Style="margin:15px 15px 15px 15px;height:100%">
         @Body
     </MudMainContent>
 </MudLayout>
@@ -51,23 +51,23 @@
             logo = "/images/ColorLogo.png";
             lightMode = "display:none";
             darkMode = "display:block";
-            ToggleStylesheetAsync("dark");
+            ToggleThemeStylesheetAsync("dark");
         }
         else
         {
             logo = "/images/ColorLogo.png";
             darkMode = "display:none";
             lightMode = "display:block";
-            ToggleStylesheetAsync("light");
+            ToggleThemeStylesheetAsync("light");
         }
 
     }
 
-    private async Task ToggleStylesheetAsync(string styleSheetName)
+    private async Task ToggleThemeStylesheetAsync(string styleSheetName)
     {
-        await JS.InvokeVoidAsync("toggleStylesheet", styleSheetName);
+        await JS.InvokeVoidAsync("toggleThemeStylesheet", styleSheetName);
     }
-
+    
     private bool _isDarkMode;
     private MudThemeProvider _mudThemeProvider;
 

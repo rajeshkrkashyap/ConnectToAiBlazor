@@ -62,7 +62,7 @@
         if (firstRender)
         {
             module1 = await JS.InvokeAsync<IJSObjectReference>("import", "/js/chat.js"); // this is a sample code not in use
-            await JS.InvokeVoidAsync("loadStorageData.loadDataFromLocalstorage");
+            await JS.InvokeVoidAsync("loadStorageData.loadDataFromLocalstorage", UserDetail.UserID);
         }
     }
 

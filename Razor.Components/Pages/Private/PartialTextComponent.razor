@@ -44,7 +44,7 @@
 
         if (userSetting!=null && Convert.ToBoolean(userSetting.IsSpeakerEnabled))
         {
-            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent, messageId);
+            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", UserDetail.UserID, responseContent, messageId);
         }
     }
 
