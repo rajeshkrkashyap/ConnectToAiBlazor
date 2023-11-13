@@ -6,10 +6,10 @@
 <IndexComponent />
 
 <script>
-    dataFromLocalstorage: function (userId) {
+    function dataFromLocalstorage(userId) {
         // Load saved chats and theme from local storage and apply/add on the page
 
-        const defaultText = `<div class="default-text"><h1>Start a conversation</h1></div>`;
+       
 
         var allChatContainer = document.getElementById("all-chat-container");
         //allChatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
