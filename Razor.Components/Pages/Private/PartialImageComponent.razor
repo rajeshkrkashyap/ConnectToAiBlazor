@@ -7,7 +7,7 @@
     <MudIconButton Icon="@Icons.Material.Filled.Upload" Variant="Variant.Outlined" OnClick="OpenFileDialog" Color="Color.Default" Style="width:60px;height:72px;margin-top:20px" />
     <InputFile OnChange="HandleFileSelected" hidden />
     <MudPaper Height="92px" Outlined="true" Class="@DragClass" Style="padding:29px">
-        <MudText id="mudText" Typo="Typo.h6" Style="@isDsiplayMudText">Copy and Paste files here! or click on upload </MudText>
+        <MudText id="mudText" Typo="Typo.h6" Style="@isDsiplayMudText">Copy and Paste maths equation Image/file here! or click on upload </MudText>
         <img id="imgData" Src="@fileData" style="@isDsiplayImage" />
     </MudPaper>
 
@@ -43,7 +43,7 @@
         var userPromptImageTag = "<img src=" + dataUrl + "></img>";
         string messageId = Guid.NewGuid().ToString();
         await JS.InvokeVoidAsync("UserQueryContent", userPromptImageTag, messageId);
-      
+
         string authTokenStr = await JS.InvokeAsync<string>("connectToAiApp.getCookieValue", "AuthToken");
         if (!string.IsNullOrWhiteSpace(authTokenStr))
         {
@@ -57,13 +57,13 @@
         var appUserSetting = await appUserSettingService.GetAppSettingByAppUserIdAsync(UserDetail.UserID);
 
         var responseContent = await UpdateUiWithOutStream(await ProcessPrompt(appSettings, ClientPromptInput), userPromptImageTag);
-        await JS.InvokeVoidAsync("AppendResponseContent", responseContent, messageId, true);
+        await JS.InvokeVoidAsync("AppendResponseContent", UserDetail.UserID, responseContent, messageId, true);
 
         var userSetting = JsonConvert.DeserializeObject<UserSetting>(appUserSetting.AllSettingsInJSON);
 
         if (userSetting != null && Convert.ToBoolean(userSetting.IsSpeakerEnabled))
         {
-            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent, messageId);
+            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent);
         }
     }
 
@@ -92,7 +92,7 @@
         await Task.Delay(100);
     }
 
-    
+
     private async void OpenFileDialog()
     {
         await JS.InvokeVoidAsync("openFileDialog");

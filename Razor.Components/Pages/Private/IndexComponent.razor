@@ -3,7 +3,7 @@
 @using System.Text;
 @inject IJSRuntime JS
 @implements IAsyncDisposable
- 
+
 <MudPaper>
     <MudPaper id="chatContainer" Style="@OtherTab">
         <PartialChatPageComponent />
@@ -13,14 +13,14 @@
     </MudPaper>
     <MudTabs Outlined="true" Position="Position.Bottom" Rounded="true" Border="true"
              ApplyEffectsToContainer="true" PanelClass="pa-4" Color="Color.Default" @bind-ActivePanelIndex="activeIndex" id="footer">
-        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight">
-            <PartialTextComponent />
+        <MudTabPanel Text="IMAGE" OnClick="SetOtherTabHeight">
+            <PartialImageComponent />
         </MudTabPanel>
         <MudTabPanel Text="AUDIO" OnClick="SetOtherTabHeight">
             <PartialAudioComponent />
         </MudTabPanel>
-        <MudTabPanel Text="IMAGE" OnClick="SetOtherTabHeight">
-            <PartialImageComponent />
+        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight">
+            <PartialTextComponent />
         </MudTabPanel>
         <MudTabPanel Text="SETTINGS" OnClick="SetSettingTabHeight">
             <PartialSettingsComponent />
@@ -41,7 +41,7 @@
         OtherTab = "display:block";
         SettingTab = "display:none";
         //JS.InvokeVoidAsync("adjustScroll");
-       
+
         StateHasChanged();
     }
     protected void SetSettingTabHeight()
@@ -50,7 +50,7 @@
         // SettingTab = "height:770px;padding:10px 0px 0px 0px;display:block";
         OtherTab = "display:none";
         SettingTab = "display:block";
-        
+
         //JS.InvokeVoidAsync("adjustScroll");
         StateHasChanged();
     }

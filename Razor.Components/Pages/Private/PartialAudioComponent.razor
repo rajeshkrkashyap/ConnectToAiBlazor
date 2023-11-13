@@ -61,13 +61,13 @@
         var appUserSetting = await appUserSettingService.GetAppSettingByAppUserIdAsync(UserDetail.UserID);
 
         var responseContent = await UpdateUiWithOutStream(await ProcessPrompt(appSettings, ClientPromptInput), userPrompt);
-        await JS.InvokeVoidAsync("AppendResponseContent", responseContent, messageId, false);
+        await JS.InvokeVoidAsync("AppendResponseContent", UserDetail.UserID, responseContent, messageId, false);
 
         var userSetting = JsonConvert.DeserializeObject<UserSetting>(appUserSetting.AllSettingsInJSON);
 
         if (userSetting != null && Convert.ToBoolean(userSetting.IsSpeakerEnabled))
         {
-            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent, messageId);
+            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent);
         }
     }
     private async Task StartRecording(bool value)
