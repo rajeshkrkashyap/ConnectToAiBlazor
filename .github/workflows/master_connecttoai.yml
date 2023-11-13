@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'ConnectToAi'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_71DAC6F1B60947DFB3E675BD7BB3B752 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_862F4F291FC240BA80C4D15370A7717F }}
           package: .
