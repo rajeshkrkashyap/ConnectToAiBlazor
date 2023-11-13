@@ -67,5 +67,4 @@ app.UseEndpoints(endpoints =>
     app.MapFallbackToPage("/_Host");
 });
 
-
 app.Run();
