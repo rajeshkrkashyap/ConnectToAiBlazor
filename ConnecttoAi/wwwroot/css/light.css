@@ -1,0 +1,105 @@
+﻿.scroll-container {
+    max-height: 750px; /* Set a maximum height for the container */
+    overflow-y: auto; /* Enable vertical scrolling */
+    /*border: 1px solid #ccc; /* Optional border for styling */
+}
+
+.chat-container-question {
+    display: flex;
+    align-items: flex-start; /* Align items to the start (top) */
+    background-color: #adadad;
+}
+
+.chat-container-answer {
+    display: flex;
+    align-items: flex-start; /* Align items to the start (top) */
+    background-color: #dddddd;
+    margin-bottom: 20px;
+}
+
+.chat-message {
+    display: flex;
+    align-items: center; /* Align items vertically in the message container */
+    margin: 10px;
+}
+
+.avatar {
+    width: 35px; /* Set a specific width for the avatar */
+    height: 35px; /* Set a specific height for the avatar */
+    border-radius: 2px; /* Make the avatar circular */
+    margin-right: 10px; /* Add some space between the avatar and message */
+}
+
+.message-text div p {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+@keyframes typing {
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
+}
+
+.typing-animation {
+    display: inline-block;
+    overflow: hidden;
+    border-right: 2px solid #000; /* Adjust border style as needed */
+    white-space: nowrap;
+    animation: typing 1s steps(40) infinite alternate; /* Adjust animation duration as needed */
+}
+
+
+@keyframes dotsAnimation {
+    0%, 20% {
+        content: ".";
+    }
+
+    40% {
+        content: "..";
+    }
+
+    60% {
+        content: "...";
+    }
+
+    80% {
+        content: "..";
+    }
+}
+
+.loading-text {
+    display: inline-block;
+    font-size: 16px;
+}
+
+.dots::after {
+    display: inline-block;
+    content: ".";
+    animation: dotsAnimation 1s infinite;
+}
+
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 0fr 12fr 0fr;
+    grid-gap: 0px;
+}
+
+.grid-item {
+    padding: 0px;
+}
+
+.icon {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.box-background-color {
+    background-color: #ababab;
+}

@@ -10,6 +10,7 @@
     <MudTextField @bind-Value="UserInputText" Lines="2" id="chat-input" Variant="Variant.Text" @key="enterButtonKey" OnKeyPress="HandleKeyPress"></MudTextField>
     <MudButton @ref="myButtonRef" id="btnSentAudio" Disabled="_IsDisabled" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Default" Size="Size.Small" OnClick="SendPrompt"> Send</MudButton>
 </MudStack>
+
 @code {
     private string enterButtonKey = "enterButton";
     private MudButton myButtonRef;
@@ -87,6 +88,5 @@
     {
         await JS.InvokeVoidAsync("recording", value);
     }
-}
 }
 
