@@ -62,53 +62,59 @@
         }
 
         function UserQueryContent(userPrompt, id) {
-
             var targetDiv = document.getElementById('main-chat-container');
+            var chatinput = document.getElementById('chat-input')
+            
             if (document.getElementById("btnSentText"))
                 document.getElementById("btnSentText").setAttribute("disabled", "");
             else
                 document.getElementById("btnSentAudio").setAttribute("disabled", "");
 
+            if (chatinput.value = "") {
+                return;
+            }
+            chatinput.value = "";
+
             const html = `<div>
-                                                                                 <div class="chat-container-question">
-                                                                                 <div class="chat-container-question">
-                                                                                 <div class="chat-message">
-                                                                                 <img src="/images/avatar.png" alt="User Avatar" class="avatar">
-                                                                                 <div class="message-text">`+ userPrompt + `</div>
-                                                  </div>
-                                                  </div>
-                                                  </div>
-                                                  <div class="chat-container-answer" style="margin-top: 20px;">
-                                                  <div class="chat-message">
-                                                  <div class="grid-container">
-                                                  <div class="grid-item">
-                                                  <div class="icon">
-                                                  <img src="/images/response.png" alt="User Avatar" class="avatar">
-                                                  </div>
-                                                  </div>
-                                                  <div class="grid-item">
-                                                  <div class="message-text" id=`+ id + ` style="margin-top:20px">
-                                                                                   <div class="loading-text">
-                                                                                   Waiting for response<span class="dots">...</span>
-                                                                                   </div>
-                                                                                   </div>
-                                                                                   </div>
-                                                                                 <div class="grid-item">
-                                                                                 <div class="icon" style="margin-top:15px">
-                                                                                 <button id="speakerOn`+ id + `" aria-label="play" onclick="playAudio('` + id + `')" type="button" class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon" _bl_2="">
-                                                  <span class="mud-icon-button-label" style="display:block">
-                                                  <!--!-->
-                                                  <svg id="svg`+ id + `" class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><title>VolumeUp</title><!--!--><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z">
-                                                                                </path>
-                                                                                </svg>
-                                                                                </span>
-                                                                                </button>
-                                                                                </div>
-                                                                                </div>
-                                                                                </div>
-                                                                                </div>
-                                                                                </div>
-                                                                                </div>`;
+                                                                                                 <div class="chat-container-question">
+                                                                                                 <div class="chat-container-question">
+                                                                                                 <div class="chat-message">
+                                                                                                 <img src="/images/avatar.png" alt="User Avatar" class="avatar">
+                                                                                                 <div class="message-text">`+ userPrompt + `</div>
+                                                                  </div>
+                                                                  </div>
+                                                                  </div>
+                                                                  <div class="chat-container-answer" style="margin-top: 20px;">
+                                                                  <div class="chat-message">
+                                                                  <div class="grid-container">
+                                                                  <div class="grid-item">
+                                                                  <div class="icon">
+                                                                  <img src="/images/response.png" alt="User Avatar" class="avatar">
+                                                                  </div>
+                                                                  </div>
+                                                                  <div class="grid-item">
+                                                                  <div class="message-text" id=`+ id + ` style="margin-top:20px">
+                                                                                                   <div class="loading-text">
+                                                                                                   Waiting for response<span class="dots">...</span>
+                                                                                                   </div>
+                                                                                                   </div>
+                                                                                                   </div>
+                                                                                                 <div class="grid-item">
+                                                                                                 <div class="icon" style="margin-top:15px">
+                                                                                                 <button id="speakerOn`+ id + `" aria-label="play" onclick="playAudio('` + id + `')" type="button" class="mud-button-root mud-icon-button mud-ripple mud-ripple-icon" _bl_2="">
+                                                                  <span class="mud-icon-button-label" style="display:block">
+                                                                  <!--!-->
+                                                                  <svg id="svg`+ id + `" class="mud-icon-root mud-svg-icon mud-icon-size-medium" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><title>VolumeUp</title><!--!--><path d="M0 0h24v24H0z" fill="none"></path><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z">
+                                                                                                </path>
+                                                                                                </svg>
+                                                                                                </span>
+                                                                                                </button>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                                </div>`;
 
             const chatDiv = document.createElement("div");
             // chatDiv.className = "chat-container-question";
@@ -263,7 +269,8 @@
                 console.log("recording Stop");
             }
         }
-        function getRecordedText() {
+
+        function getInputText() {
             const chatInput = document.querySelector("#chat-input");
             var recoredText = chatInput.value
             chatInput.value = "";

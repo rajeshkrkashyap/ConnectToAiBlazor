@@ -57,6 +57,11 @@
             else
                 document.getElementById("btnSentAudio").setAttribute("disabled", "");
 
+            if (chatinput.value = "") {
+                return;
+            }
+            chatinput.value = "";
+
             const html = `<div>
                                                                <div class="chat-container-question">
                                                                <div class="chat-container-question">
@@ -255,7 +260,7 @@
                 console.log("recording Stop");
             }
         }
-        function getRecordedText() {
+        function getInputText() {
             const chatInput = document.querySelector("#chat-input");
             var recoredText = chatInput.value
             chatInput.value = "";

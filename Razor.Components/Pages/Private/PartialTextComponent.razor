@@ -2,28 +2,45 @@
 @using Newtonsoft.Json;
 @using Services;
 @inherits PromptBaseComponent
-@inject AppSettings appSettings
-@implements IAsyncDisposable
+
 <MudStack Row="true">
     <MudIconButton Icon="@Icons.Material.Filled.TextFields" Variant="Variant.Outlined" Color="Color.Default" Style="width:60px" />
-    <MudTextField id="chat-input" Lines="2" @bind-Value="UserInputText" Label="Write you query here!" />
-    <MudButton id="btnSentText" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Default" Size="Size.Small" OnClick="SendPrompt" title="text">Send</MudButton>
+    <MudTextField id="chat-input" @bind-Value="UserInputText" Label="Write you query here!" @key="enterButtonKey" OnKeyPress="HandleKeyPress" />
+    <MudButton @ref="myButtonRef" id="btnSentText" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" tabindex="0" Color="Color.Default" Size="Size.Small"
+               OnClick="SendPrompt" title="text">Send</MudButton>
 </MudStack>
 @code {
-    public string? UserInputText { get; set; }
+    private string enterButtonKey = "enterButton";
+    private MudButton myButtonRef;
+    public string? UserInputText { get; set; } = "";
     private IJSObjectReference? module;
+
+    private async Task HandleKeyPress(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            // Execute the button click logic
+            await myButtonRef.OnClick.InvokeAsync(new MouseEventArgs());
+        }
+        else
+        {
+            UserInputText += Convert.ToChar(args.Code);
+        }
+    }
+
     private async Task SendPrompt()
     {
-        if (string.IsNullOrEmpty(UserInputText))
-        {
-            return;
-        }
-        var userPrompt = UserInputText;
-        UserInputText = ""; //this require to make clear text box
+        var userPrompt = await JS.InvokeAsync<string>("getInputText");
 
         string messageId = Guid.NewGuid().ToString();
 
+        if (string.IsNullOrEmpty(userPrompt))
+        {
+            return;
+        }
+
         await JS.InvokeVoidAsync("UserQueryContent", userPrompt, messageId);
+        UserInputText = ""; //this require to make clear text box
 
         string authTokenStr = await JS.InvokeAsync<string>("connectToAiApp.getCookieValue", "AuthToken");
         if (!string.IsNullOrWhiteSpace(authTokenStr))
@@ -39,10 +56,10 @@
 
         var responseContent = await UpdateUiWithOutStream(await ProcessPrompt(appSettings, ClientPromptInput), userPrompt);
         await JS.InvokeVoidAsync("AppendResponseContent", UserDetail.UserID, responseContent, messageId, false);
-        
+
         var userSetting = JsonConvert.DeserializeObject<UserSetting>(appUserSetting.AllSettingsInJSON);
 
-        if (userSetting!=null && Convert.ToBoolean(userSetting.IsSpeakerEnabled))
+        if (userSetting != null && Convert.ToBoolean(userSetting.IsSpeakerEnabled))
         {
             await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent);
         }
@@ -53,11 +70,4 @@
         module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/textToSpeech.js");
     }
 
-    async ValueTask IAsyncDisposable.DisposeAsync()
-    {
-        if (module is not null)
-        {
-            await module.DisposeAsync();
-        }
-    }
 }

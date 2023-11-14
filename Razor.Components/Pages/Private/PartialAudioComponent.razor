@@ -3,19 +3,23 @@
 @inherits PromptBaseComponent
 @inject IJSRuntime JS
 <MudStack Row="true">
-    <MudToggleIconButton @bind-Toggled="@MicOn" Variant="Variant.Outlined"
+    <MudToggleIconButton @ref="ToggleMic" @bind-Toggled="@MicOn" Variant="Variant.Outlined"
                          Icon="@Icons.Material.Filled.MicOff" Color="@Color.Default" Title="Off"
                          ToggledIcon="@Icons.Material.Filled.Mic" ToggledColor="@Color.Error" ToggledTitle="On" Style="width:60px" />
 
-    <MudTextField @bind-Value="UserInputText" Lines="2" id="chat-input" Variant="Variant.Text"></MudTextField>
-    <MudButton id="btnSentAudio" Disabled="_IsDisabled" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Default" Size="Size.Small" OnClick="SendPrompt"> Send</MudButton>
+    <MudTextField @bind-Value="UserInputText" Lines="2" id="chat-input" Variant="Variant.Text" @key="enterButtonKey" OnKeyPress="HandleKeyPress"></MudTextField>
+    <MudButton @ref="myButtonRef" id="btnSentAudio" Disabled="_IsDisabled" Variant="Variant.Filled" EndIcon="@Icons.Material.Filled.Send" Color="Color.Default" Size="Size.Small" OnClick="SendPrompt"> Send</MudButton>
 </MudStack>
 @code {
 
-    public string? UserInputText { get; set; }
+    private string enterButtonKey = "enterButton";
+    private MudButton myButtonRef;
+    public string? UserInputText { get; set; } = "";
     private IJSObjectReference? module;
     bool _MicOn = false;
     bool _IsDisabled = false;
+    MudToggleIconButton ToggleMic;
+
     public bool MicOn
     {
         get { return _MicOn; }
@@ -23,20 +27,38 @@
         {
             _MicOn = value;
             StartRecording(_MicOn);
-            if (_MicOn)
-            {
-                _IsDisabled = true;
-            }
-            else
-            {
-                _IsDisabled = false;
-            }
+            // if (_MicOn)
+            // {
+            //     _IsDisabled = true;
+            // }
+            // else
+            // {
+            //     _IsDisabled = false;
+            // }
+        }
+    }
+
+    private async Task HandleKeyPress(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+        {
+            // Execute the button click logic
+            await myButtonRef.OnClick.InvokeAsync(new MouseEventArgs());
+        }
+        else
+        {
+            UserInputText += Convert.ToChar(args.Code);
         }
     }
 
     private async Task SendPrompt()
     {
-        UserInputText = await JS.InvokeAsync<string>("getRecordedText");
+        if (ToggleMic.Toggled)
+        {
+            ToggleMic.Toggle();
+        }  
+        
+        UserInputText = await JS.InvokeAsync<string>("getInputText");
         if (string.IsNullOrEmpty(UserInputText))
         {
             return;

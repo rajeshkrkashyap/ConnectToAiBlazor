@@ -31,14 +31,14 @@
         <PartialSettingPageComponent />
     </MudPaper>
     <MudTabs Outlined="true" Position="Position.Bottom" Rounded="true" Border="true"
-             ApplyEffectsToContainer="true" PanelClass="pa-4" Color="Color.Default" id="footer">
+             ApplyEffectsToContainer="true" PanelClass="pa-4" Color="Color.Default" @bind-ActivePanelIndex="activeIndex" id="footer">
         <MudTabPanel Text="IMAGE" OnClick="SetOtherTabHeight">
             <PartialImageComponent />
         </MudTabPanel>
         <MudTabPanel Text="AUDIO" OnClick="SetOtherTabHeight">
             <PartialAudioComponent />
         </MudTabPanel>
-        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight">
+        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight" Style="display:none">
             <PartialTextComponent />
         </MudTabPanel>
         <MudTabPanel Text="SETTINGS" OnClick="SetSettingTabHeight">
@@ -50,6 +50,7 @@
 
 
 @code {
+    protected int activeIndex = 0;
     protected string OtherTab { get; set; } = "display:block"; // height:770px;padding:10px 0px 0px 0px;display:block";
     protected string SettingTab { get; set; } = "display:none";// "height:770px;padding:10px 0px 0px 0px;display:none";
     protected void SetOtherTabHeight()
