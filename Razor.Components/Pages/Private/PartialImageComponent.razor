@@ -18,7 +18,7 @@
 @code {
     public string TextValue = "test";
 
-    protected override async Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         //Register JavaScript interop for paste event
         await JS.InvokeVoidAsync("registerPasteEvent", DotNetObjectReference.Create(this));

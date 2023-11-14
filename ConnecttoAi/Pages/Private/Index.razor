@@ -32,14 +32,14 @@
     </MudPaper>
     <MudTabs Outlined="true" Position="Position.Bottom" Rounded="true" Border="true"
              ApplyEffectsToContainer="true" PanelClass="pa-4" Color="Color.Default" id="footer">
-        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight">
-            <PartialTextComponent />
+        <MudTabPanel Text="IMAGE" OnClick="SetOtherTabHeight">
+            <PartialImageComponent />
         </MudTabPanel>
         <MudTabPanel Text="AUDIO" OnClick="SetOtherTabHeight">
             <PartialAudioComponent />
         </MudTabPanel>
-        <MudTabPanel Text="IMAGE" OnClick="SetOtherTabHeight">
-            <PartialImageComponent />
+        <MudTabPanel Text="TEXT" OnClick="SetOtherTabHeight">
+            <PartialTextComponent />
         </MudTabPanel>
         <MudTabPanel Text="SETTINGS" OnClick="SetSettingTabHeight">
             <PartialSettingsComponent />
@@ -110,10 +110,10 @@
 }
 
 <script>
-    dataFromLocalstorage: function (userId) {
+    function dataFromLocalstorage(userId) {
         // Load saved chats and theme from local storage and apply/add on the page
 
-        const defaultText = `<div class="default-text"><h1>Start a conversation</h1></div>`;
+
 
         var allChatContainer = document.getElementById("all-chat-container");
         //allChatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
@@ -124,7 +124,7 @@
 
         var libraryUrl = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
         reloadLibrary(libraryUrl);
- 
+
         let paragraphs = document.querySelectorAll('p');
         paragraphs.forEach(function (paragraph) {
             if (paragraph.innerHTML.trim() === "") {

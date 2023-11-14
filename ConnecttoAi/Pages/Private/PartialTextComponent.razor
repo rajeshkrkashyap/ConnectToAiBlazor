@@ -1,7 +1,8 @@
 ﻿@using DataModel.Models
 @using Newtonsoft.Json;
+@using Services;
 @inherits PromptBaseComponent
-@inject AppSettings appSettings
+ 
 <MudStack Row="true">
     <MudIconButton Icon="@Icons.Material.Filled.TextFields" Variant="Variant.Outlined" Color="Color.Default" Style="width:60px" />
     <MudTextField Lines="2" id="chat-input" @bind-Value="UserInputText" Label="Write you query here!" />
@@ -31,7 +32,17 @@
         ClientPromptInput.Prompt = userPrompt;
         ClientPromptInput.UserId = UserDetail.UserID;
 
+        AppUserSettingService appUserSettingService = new AppUserSettingService(appSettings);
+        var appUserSetting = await appUserSettingService.GetAppSettingByAppUserIdAsync(UserDetail.UserID);
+
         var responseContent = await UpdateUiWithOutStream(await ProcessPrompt(appSettings, ClientPromptInput), userPrompt);
-        await JS.InvokeVoidAsync("AppendResponseContent", responseContent, id);
+        await JS.InvokeVoidAsync("AppendResponseContent", UserDetail.UserID, responseContent, id);
+
+        var userSetting = JsonConvert.DeserializeObject<UserSetting>(appUserSetting.AllSettingsInJSON);
+
+        if (userSetting != null && Convert.ToBoolean(userSetting.IsSpeakerEnabled))
+        {
+            await JS.InvokeVoidAsync("aiSpeech.getSpeechFromAzure", responseContent);
+        }
     }
 }
