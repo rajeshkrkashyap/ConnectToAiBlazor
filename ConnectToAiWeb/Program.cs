@@ -3,6 +3,7 @@ using MudBlazor.Services;
 using DataModel.Utility;
 using DataModel.Models;
 using Services;
+using ConnectToAiWeb.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,10 @@ builder.Services.AddCors(options =>
         builder.AllowAnyMethod();
     });
 });
+
+
+builder.Services.AddSingleton<ErrorState>();
+
 
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();

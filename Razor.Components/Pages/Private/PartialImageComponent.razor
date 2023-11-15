@@ -20,8 +20,11 @@
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        //Register JavaScript interop for paste event
-        await JS.InvokeVoidAsync("registerPasteEvent", DotNetObjectReference.Create(this));
+        if (firstRender)
+        {
+            //Register JavaScript interop for paste event
+            //await JS.InvokeVoidAsync("registerPasteEvent", DotNetObjectReference.Create(this));
+        }
     }
 
     string fileData = "";

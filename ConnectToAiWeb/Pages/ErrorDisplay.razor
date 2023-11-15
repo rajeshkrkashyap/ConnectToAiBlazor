@@ -1,0 +1,10 @@
+﻿@inherits ComponentBase
+
+<div class="alert alert-danger">
+    An error occurred: @ErrorMessage
+</div>
+
+@code {
+    [Parameter]
+    public string ErrorMessage { get; set; }
+}

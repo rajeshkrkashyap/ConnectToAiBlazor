@@ -70,10 +70,13 @@
             else
                 document.getElementById("btnSentAudio").setAttribute("disabled", "");
 
-            if (chatinput.value = "") {
-                return;
+            if (chatinput) {
+                alert("sasas");
+                if (chatinput.value = "") {
+                    return;
+                }
+                chatinput.value = "";
             }
-            chatinput.value = "";
 
             const html = `<div>
                                                                                                  <div class="chat-container-question">

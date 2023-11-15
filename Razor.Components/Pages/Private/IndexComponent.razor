@@ -68,7 +68,11 @@
             }
             module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/textToSpeech.js");
             //module = await JS.InvokeAsync<IJSObjectReference>("import", "/js/chat.js"); // this is a sample code not in use
-            await JS.InvokeVoidAsync("loadChat.dataFromLocalstorage", UserDetail.UserID);
+            if (UserDetail != null)
+            {
+                await JS.InvokeVoidAsync("loadChat.dataFromLocalstorage", UserDetail.UserID);
+            }
+
         }
     }
 

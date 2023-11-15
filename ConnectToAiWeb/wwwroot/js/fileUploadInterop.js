@@ -1,5 +1,5 @@
-﻿window.registerPasteEvent = (dotnetHelper) => {
-     
+﻿//window.registerPasteEvent = (dotnetHelper) => {
+
     document.addEventListener("paste", (event) => {
         const clipboardData = event.clipboardData || window.clipboardData;
         const items = clipboardData.items;
@@ -28,7 +28,7 @@
             }
         }
     });
-};
+//};
 
 function Upload() {
     var dataURL = $("#imgData").attr("src");
