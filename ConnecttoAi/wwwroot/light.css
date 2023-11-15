@@ -1,5 +1,5 @@
 ﻿.scroll-container {
-    max-height: 800px; /* Set a maximum height for the container */
+    max-height: 750px; /* Set a maximum height for the container */
     overflow-y: auto; /* Enable vertical scrolling */
     /*border: 1px solid #ccc; /* Optional border for styling */
 }
@@ -98,4 +98,8 @@
 .icon {
     text-align: left;
     margin-bottom: 10px;
+}
+
+.box-background-color {
+    background-color: #ababab;
 }

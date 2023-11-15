@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataModel", "DataModel\DataModel.csproj", "{BD2FAEAC-73A5-4946-8F4B-652EF80D38FA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnecttoAi", "ConnecttoAi\ConnecttoAi.csproj", "{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,12 +34,18 @@ Global
 		{BD2FAEAC-73A5-4946-8F4B-652EF80D38FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD2FAEAC-73A5-4946-8F4B-652EF80D38FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD2FAEAC-73A5-4946-8F4B-652EF80D38FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7EDCDEB-0630-444F-ABF6-3B2B85503B8A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {9FB85D28-F961-46B1-9EEE-33E4CC5EB7F3}
 		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
+		SolutionGuid = {9FB85D28-F961-46B1-9EEE-33E4CC5EB7F3}
 	EndGlobalSection
 EndGlobal

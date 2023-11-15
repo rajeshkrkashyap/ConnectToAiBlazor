@@ -1,0 +1,16 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#main-chat-container {
+    overflow-y: auto;
+    height: calc(100vh - 50px); /* Adjust the height based on your footer height */
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
