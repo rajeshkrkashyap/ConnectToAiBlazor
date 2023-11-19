@@ -2,7 +2,7 @@
 {
     public class ApiUrl
     {
-        public const string ApiBaseURL = "https://localhost:5001/";
+        public const string ApiBaseURL = "https://connecttoapi.in/";
         public const string Login = "api/auth/login";
         public const string Register = "api/auth/register";
         public const string RefreshToken = "api/auth/refreshtoken";
