@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:ConnectToAi.MobileApp.ViewModels"
+             x:Class="ConnectToAi.MobileApp.Views.AudioPayerWindows">
+
+    <Frame  BackgroundColor="AliceBlue" BorderColor="#d0f4de"  Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30">
+        <StackLayout Orientation="Horizontal">
+            <Frame x:Name="framePlay" HeightRequest="70" WidthRequest="60" CornerRadius="40" Padding="0" Margin="5" IsVisible="{Binding IsPlayVisible}">
+                <ImageButton  WidthRequest="40" HeightRequest="40" Command="{Binding PlayCommand}">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Glyph="{StaticResource play}" Color="Green"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Frame>
+            <Frame x:Name="framePause" HeightRequest="70" WidthRequest="60" CornerRadius="40" Padding="0" Margin="5" IsVisible="{Binding IsPauseVisible}">
+                <ImageButton  WidthRequest="40" HeightRequest="40" Command="{Binding PauseCommand}">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Glyph="{StaticResource pause}" Color="Red"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Frame>
+
+            <Label Text="10" FontAttributes="Bold" FontSize="10" Margin="0,0, 0,0" Padding="1"></Label>
+            <Frame CornerRadius="25" HeightRequest="60" HorizontalOptions="FillAndExpand">
+                <Slider x:Name="progressBar" HeightRequest="10" Minimum="0" Maximum="100" DragCompletedCommand="{Binding SliderDraggedCommand}" Value="{Binding SliderValue}"
+                        Margin="0,0,0,0" BackgroundColor="#007AFF" MaximumTrackColor="Black" />
+            </Frame>
+            <Label Text="10" FontAttributes="Bold" FontSize="10" Margin="0,0,0,0" Padding="0,0,15,0"></Label>
+        </StackLayout>
+    </Frame>
+</ContentView>

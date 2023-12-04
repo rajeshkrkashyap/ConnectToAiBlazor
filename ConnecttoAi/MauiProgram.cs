@@ -1,4 +1,5 @@
-﻿//using Android.Provider;
+ 
+//using Android.Provider;
 //using Android.SE.Omapi;
 using ConnecttoAi.Data;
 using DataModel.Models;
@@ -16,6 +17,7 @@ namespace ConnecttoAi
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                 
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

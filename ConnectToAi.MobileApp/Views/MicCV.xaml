@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConnectToAi.MobileApp.Views.MicCV" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+    <StackLayout>
+        <StackLayout VerticalOptions="EndAndExpand">
+            <ScrollView Margin="0" VerticalScrollBarVisibility="Never"  VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="EndAndExpand" x:Name="listViewItem" Margin="5" Spacing="5">
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+        <StackLayout VerticalOptions="End">
+            <ImageButton x:Name="imgOffMicButton" WidthRequest="80" HeightRequest="80" Clicked="ImageOffButton_Clicked" Padding="10,10,10,10" VerticalOptions="End">
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FAS" Glyph="{StaticResource mic-off}" Color="#8e8e93" Size="80" />
+                </ImageButton.Source>
+            </ImageButton>
+            <ImageButton x:Name="imgOnMicButton" WidthRequest="80" HeightRequest="80" Clicked="ImageOnButton_Clicked" Padding="10,10,10,10" VerticalOptions="End" IsVisible="False" >
+                <ImageButton.Source>
+                    <FontImageSource FontFamily="FAS" Glyph="{StaticResource mic-on}" Color="red" Size="80" />
+                </ImageButton.Source>
+            </ImageButton>
+        </StackLayout>
+    </StackLayout>
+</ContentView>

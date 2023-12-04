@@ -1,0 +1,65 @@
+﻿<Window x:Class="InstructionAdminPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:InstructionAdminPanel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="auto" Width="auto">
+    <Grid MouseDown="Grid_MouseDown">
+
+        <Grid Margin="290 50 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            
+                <Grid x:Name="GridPrincipal" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            
+        </Grid>
+        
+        <Grid Width="250" HorizontalAlignment="Left" Background="Black">
+            <materialDesign:TransitioningContent x:Name="TrainsitionigContentSlide" OpeningEffect="{materialDesign:TransitionEffect SlideInFromLeft, Duration=0:0:0.2}">
+                <Grid x:Name="GridCursor" Margin="0 100 0 0" Background="#FF0069C0" Width="10" HorizontalAlignment="Left" Height="60" VerticalAlignment="Top"/>
+            </materialDesign:TransitioningContent>
+            <ListView x:Name="ListViewMenu" Margin="0 100" BorderThickness="0" Background="Black" Foreground="LightGray" FontFamily="Champagne &amp; Limousines" FontSize="18" 
+                      SelectionChanged="ListViewMenu_SelectionChanged" SelectedIndex="0">
+                <ListViewItem Height="60" BorderThickness="0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Home" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Home" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Language" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock x:Name="txtEnglish" Text="English" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Nuclear" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Physics" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Chemist" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Chemistry" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="MathCompassVariant" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Maths" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Bio" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
+                        <TextBlock Text="Biology" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+
+
+    </Grid>
+</Window>

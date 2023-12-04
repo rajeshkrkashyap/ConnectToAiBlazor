@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConnectToAi.MobileApp.Views.ResponseCV">
+
+    <Frame  BackgroundColor="#343541" BorderColor="#343541"  Padding="0" HorizontalOptions="FillAndExpand" Margin="5,5,5,5">
+        <StackLayout Orientation="Horizontal">
+            <Frame x:Name="frameHighVolume" HeightRequest="40" WidthRequest="40" VerticalOptions="Start" HorizontalOptions="Start" Padding="0" Margin="5" IsVisible="{Binding IsHighVolumeVisible}">
+                <ImageButton  WidthRequest="30" HeightRequest="20" Command="{Binding VolumeOnCommand}">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Glyph="{StaticResource volume-high}" Color="Green"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Frame>
+            <Frame x:Name="frameMuteVolume" HeightRequest="40" WidthRequest="40" VerticalOptions="Start" HorizontalOptions="Start" Padding="0" Margin="5" IsVisible="{Binding IsMuteVolumeVisible}">
+                <ImageButton  WidthRequest="30" HeightRequest="20" Command="{Binding VolumeOffCommand}">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="FAS" Glyph="{StaticResource volume-mute}" Color="Gray"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </Frame>
+            <Label x:Name="lblResponse" TextColor="#d9d9de" LineBreakMode="WordWrap" Text="{Binding ResponseText}" 
+                   HorizontalTextAlignment="Start" VerticalTextAlignment="Start" LineHeight="2" MaxLines="5" HorizontalOptions="FillAndExpand" FontAttributes="Bold" FontSize="14" 
+                   Padding="0,10,5,10" />
+        </StackLayout>
+    </Frame>
+</ContentView>

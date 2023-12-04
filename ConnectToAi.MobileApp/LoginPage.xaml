@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConnectToAi.MobileApp.LoginPage"
+             xmlns:system="clr-namespace:System;assembly=netstandard"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             Title="LoginPage">
+
+    <Grid ColumnDefinitions="0.5*, 0.5*" RowDefinitions="0.3*, 0.7*" Background="{OnIdiom Default=Transparent, Desktop=#577590}">
+        <Border  Grid.ColumnSpan="{OnIdiom Default=2, Desktop=1}" Stroke="Transparent"  Background="{OnIdiom Phone=#f8f7ff,Desktop=Transparent}" 
+                 Grid.RowSpan="{OnIdiom Default=1, Desktop=2}">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,100,100"/>
+            </Border.StrokeShape>
+            <Image Source="connectoai.svg" Grid.Row="0"  Grid.Column="0"  HorizontalOptions="Center" Aspect="AspectFit" />
+        </Border>
+
+        <Frame CornerRadius="0" Grid.Column="{OnIdiom Default=0, Desktop=1}"  BorderColor="White" HeightRequest="500" Background="White"
+               Grid.Row="{OnIdiom Default=1, Desktop=0}" 
+               WidthRequest="380" VerticalOptions="{OnIdiom Default=Start, Desktop=Center}"
+               Grid.ColumnSpan="{OnIdiom Default=2, Desktop=1}" 
+               Grid.RowSpan="{OnIdiom Default=1, Desktop=2}">
+
+            <Grid IsClippedToBounds="True" HeightRequest="500">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="{OnIdiom Default=130, Desktop=110}"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="1">
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <editors:SfComboBox x:Name="comboBox"
+                            WidthRequest="70"
+                            ItemsSource="{Binding Countries}"
+                            IsVisible="{Binding IsNext}" 
+                            SelectedItem="{Binding SelectCountry}"
+                            DisplayMemberPath="Name"
+                            TextMemberPath="Name"   
+                            HeightRequest="40"
+                            IsEditable="True"
+                            IsClearButtonVisible="False"
+                            Margin="0,5,0,0"/>
+
+                        <core:SfTextInputLayout x:Name="txtMobileNumber"  IsVisible="{Binding IsNext}" Hint="Mobile number" WidthRequest="200" 
+                                            ContainerType="None" 
+                                            HelperText="Enter Mobile Number"
+                                            ErrorText="Invalid Mobile number">
+                            <Entry  Text="{Binding MobileNumber}" Keyboard="Telephone"  />
+                        </core:SfTextInputLayout>
+                    </StackLayout>
+                    <core:SfTextInputLayout x:Name="txtOTP"  IsVisible="{Binding IsOTP}" Hint="Enter OTP" WidthRequest="300" 
+                                        ContainerType="None" 
+                                        HelperText="Enter 6 digit OTP"
+                                        ErrorText="Invalid OTP">
+                        <Entry  Text = "{Binding OTP}" IsEnabled="{Binding IsEntryEnabled}" TextChanged = "Entry_TextChanged"/>
+                    </core:SfTextInputLayout>
+                    <!--<Entry x:Name="userName" Text="{Binding MobileNumber}" Placeholder="Mobile Number" TextColor="Black" FontSize="20" FontAttributes="Bold" 
+                      VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,0,0"/>-->
+                </StackLayout>
+                <Label  Padding="0,10,0,0" 
+                    HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Welcome!" FontSize="32"   FontAttributes="Bold"/>
+                            <Span Text="{x:Static system:Environment.NewLine}"/>
+                            <Span Text="{Binding DisplayMessage}" TextColor="{Binding TextDsplayColor}" FontSize="14"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <!--<Grid ColumnDefinitions="0.5*,0.5*" Grid.Row="2" Padding="12,0,0,0"  VerticalOptions="Start">
+                  <HorizontalStackLayout VerticalOptions="Center" Padding="10,0,0,0" >
+                      <CheckBox Color="{StaticResource Primary}"/>
+                      <Label  Text="Remember me"  FontSize="12" VerticalOptions="Center" />
+                  </HorizontalStackLayout>
+                  <Label Text="Forgot password?" Grid.Column="1"  TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center" Padding="10,0,0,0" FontSize="12"  VerticalOptions="Center" />
+                </Grid>-->
+
+                <buttons:SfButton Text="NEXT" x:Name="nextButton" VerticalOptions="End"
+                     HorizontalOptions="Fill" Margin="20,0,20,0"  
+                     Padding="0"  FontAttributes="Bold"
+                     IsVisible="{Binding IsNext}"
+                     Grid.Row="2" Background="{StaticResource Primary}" Command="{Binding SentOTPCommand}"/>
+
+                <buttons:SfButton Text="SUBMIT" x:Name="loginButton" VerticalOptions="End" Stroke="Transparent"
+                     HorizontalOptions="Fill" Margin="20,0,20,0"  
+                     Padding="0"  FontAttributes="Bold" 
+                     IsVisible="{Binding IsOTP}"
+                     IsEnabled="{Binding IsEnabled}"  
+                     Grid.Row="2" Background="{Binding ButtonDisableColor}" Command="{Binding MobileLoginCommand}"/>
+
+                <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="Center" >
+                    <Label Text= "Seconds: " IsVisible="{Binding IsOTP}" VerticalOptions="End" HorizontalTextAlignment="Center" TextColor="{Binding TextDsplayColor}" FontSize="14"/>
+                    <Label Text= "{Binding Seconds}" IsVisible="{Binding IsOTP}" VerticalOptions="End" HorizontalTextAlignment="Center" TextColor="{Binding TextDsplayColor}" FontSize="14"/>
+                </StackLayout>
+
+                <buttons:SfButton Text="BACK" x:Name="backButton" VerticalOptions="End" Stroke="Transparent"
+                  HorizontalOptions="Fill" Margin="20,0,20,0"  
+                  Padding="0"  FontAttributes="Bold" 
+                  IsVisible="{Binding IsBackVisible}"
+                  Grid.Row="4" Background="{StaticResource Gray200}" Command="{Binding BackCommand}"/>
+
+
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

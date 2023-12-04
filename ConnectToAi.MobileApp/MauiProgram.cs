@@ -1,4 +1,6 @@
-﻿//using CommunityToolkit.Maui;
+using Syncfusion.Maui.Core.Hosting;
+//using CommunityToolkit.Maui;
+using ConnectToAi.MobileApp.Pages;
 using ConnectToAi.MobileApp.ViewModels;
 using ConnectToAi.MobileApp.Views;
 using DataModel.Utility;
@@ -15,6 +17,7 @@ namespace ConnectToAi.MobileApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+            .ConfigureSyncfusionCore()
                 //.UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
@@ -26,15 +29,19 @@ namespace ConnectToAi.MobileApp
                     fonts.AddFont("Font-Awesome- 6-Free-Solid-900.otf", "FAS");
 
                 });
-            builder.Services.AddSingleton(AudioManager.Current);
-            builder.Services.AddTransient<Home>();
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
             builder.Services.AddTransient<AppSettings>();
             builder.Services.AddTransient<LoginPageViewModel>();
             builder.Services.AddTransient<Login>();
+            builder.Services.AddTransient<MobileLogin>();
+            builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<AuthService>();
+            builder.Services.AddTransient<PromptService>();
+            builder.Services.AddSingleton(AudioManager.Current);
+            builder.Services.AddTransient<Home>();
+
             return builder.Build();
         }
     }

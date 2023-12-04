@@ -6,16 +6,18 @@
         {
             InitializeComponent();
             var userDetailInfoStr = Preferences.Get("UserLoggedInKey", "");
+            Preferences.Remove("UserLoggedInKey");
+            Preferences.Clear();
 
             if (userDetailInfoStr.Length > 0)
             {
                 mainShell.CurrentItem = homePage;
-                loginPage.IsVisible = false;
+                mobileLoginPage.IsVisible = false;
             }
             else
             {
-                loginPage.IsVisible = true;
-                mainShell.CurrentItem = loginPage;
+                mobileLoginPage.IsVisible = true;
+                mainShell.CurrentItem = mobileLoginPage;
             }
         }
     }

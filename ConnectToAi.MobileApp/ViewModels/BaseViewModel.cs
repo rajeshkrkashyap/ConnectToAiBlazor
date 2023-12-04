@@ -7,11 +7,28 @@ using System.Threading.Tasks;
 
 namespace ConnectToAi.MobileApp.ViewModels
 {
-    public partial class BaseViewModel : ObservableObject
+    public partial class BaseViewModel : ObservableObject, IDisposable
     {
         [ObservableProperty]
         public bool _isBusy;
         [ObservableProperty]
         public string _title;
+
+        private HttpClient _httpClient;
+        public HttpClient HttpClientProp
+        {
+            get
+            {
+                return _httpClient;
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_httpClient != null)
+            {
+                _httpClient.Dispose();
+            }
+        }
     }
 }

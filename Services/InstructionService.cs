@@ -64,14 +64,23 @@ namespace Services
                 var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.InstructionList}";
 
                 var serializedStr = JsonConvert.SerializeObject("");
-
-                var response = await client.PostAsync(url, new StringContent(serializedStr, Encoding.UTF8, "application/json"));
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    string contentStr = await response.Content.ReadAsStringAsync();
-                    returnResponse = JsonConvert.DeserializeObject<List<Instruction>>(contentStr);
+
+                    var response = await client.PostAsync(url, new StringContent(serializedStr, Encoding.UTF8, "application/json"));
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string contentStr = await response.Content.ReadAsStringAsync();
+                        returnResponse = JsonConvert.DeserializeObject<List<Instruction>>(contentStr);
+                    }
                 }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+
             }
             return returnResponse;
         }
@@ -80,7 +89,32 @@ namespace Services
             var returnResponse = new Instruction();
             using (var client = new HttpClient())
             {
-                var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.InstructionGetById}/?id=" + id;
+                try
+                {
+                    var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.InstructionGetById}/?id=" + id;
+                    var response = await client.PostAsync(url, null);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string contentStr = await response.Content.ReadAsStringAsync();
+                        returnResponse = JsonConvert.DeserializeObject<Instruction>(contentStr);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+
+            }
+            return returnResponse;
+        }
+        public async Task<Instruction> GetByTitle(string title)
+        {
+            var returnResponse = new Instruction();
+            using (var client = new HttpClient())
+            {
+                var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.InstructionGetByTitle}/?title=" + title;
                 var response = await client.PostAsync(url, null);
 
                 if (response.IsSuccessStatusCode)
@@ -128,6 +162,38 @@ namespace Services
             return returnResponse;
         }
 
+        public async Task<bool> UpdateAsync(Instruction instruction)
+        {
+            var returnResponse = false;
+            using (var client = new HttpClient())
+            {
+                InstructionModel instructionModel = new InstructionModel
+                {
+                    Id = instruction.Id,
+                    Title = instruction.Title,
+                    InstructionData = instruction.InstructionData,
+                    IsUserCanControl = false,  //Convert.ToBoolean(isUserCanControl),
+                    SubjectId = instruction.SubjectId,
+                    ParentId = instruction.ParentId,
+                    IsActive = true,
+                    OrderId = 0,
+                    Type = 0,
+                };
+
+                var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.InstructionUpdate}";
+                var serializedStr = JsonConvert.SerializeObject(instructionModel);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.PostAsync(url, new StringContent(serializedStr, Encoding.UTF8, "application/json"));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string contentStr = await response.Content.ReadAsStringAsync();
+                    returnResponse = JsonConvert.DeserializeObject<bool>(contentStr);
+                }
+            }
+            return returnResponse;
+        }
         public async Task<Instruction> UpdateAsync(string subjectId, string parentId, string instructionId, string title, string instructionData, string isUserCanControl = "false")
         {
             var returnResponse = new Instruction();

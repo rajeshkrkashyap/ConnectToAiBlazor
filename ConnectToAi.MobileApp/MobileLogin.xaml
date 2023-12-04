@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ConnectToAi.MobileApp.MobileLogin"
+             xmlns:models="clr-namespace:ConnectToAi.MobileApp.Models"
+             xmlns:vm="clr-namespace:ConnectToAi.MobileApp.ViewModels"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             Title="MobileLogin"
+             Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled">
+
+    <Grid BackgroundColor="#fff" Padding="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Path Fill="#7678ed" Data="m105,2l591.00002,0l0,207.93614c-122.50001,187.04511 -346.50001,-67.36703 -591.00002,34.21188l0,-242.14802z" Stroke="#7678ed"
+              Aspect="Fill" />
+
+        <StackLayout>
+            <Frame BackgroundColor="#168aad" HeightRequest="60" WidthRequest="60" CornerRadius="30" Padding="0" Margin="0,100,0,0" HorizontalOptions="Center">
+                <Image Source="avatar.png" Aspect="AspectFill" Margin="0"/>
+            </Frame>
+        </StackLayout>
+        <Grid RowSpacing="5" Grid.Row="1" Margin="20,20,20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="1" Text="Welcome!" HorizontalOptions="Center" FontSize="Title" FontAttributes="Bold" Padding="0" Margin="0"/>
+            <Label Grid.Row="2" Text="Sign in to continue!" HorizontalOptions="Center" FontSize="Subtitle" />
+            <Label Grid.Row="3" Text="{Binding Message}" TextColor="Red" HorizontalOptions="Center" FontSize="Subtitle" />
+            <StackLayout x:Name="UseIdStack" Grid.Row="4" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" WidthRequest="350" IsVisible="True">
+                <StackLayout Grid.Row="4" Orientation="Vertical" HorizontalOptions="CenterAndExpand">
+                    <StackLayout Grid.Row="4" Orientation="Vertical" HorizontalOptions="CenterAndExpand" WidthRequest="260">
+                        <Frame  BackgroundColor="Transparent" BorderColor="#d0f4de" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30" >
+                            <StackLayout Orientation="Horizontal">
+                                <Frame HeightRequest="40" WidthRequest="40" CornerRadius="30" Padding="0" Margin="5">
+                                    <Label Text="{x:Static models:Icons.Phone}" Style="{x:StaticResource MaterialIcons}" FontSize="40" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+                                <Frame HeightRequest="40" HorizontalOptions="FillAndExpand" CornerRadius="15" BorderColor="Transparent" Padding="0" Margin="1">
+                                    <Entry x:Name="userName" Text="{Binding MobileNumber}" Placeholder="Mobile Number" TextColor="Black" FontSize="20" FontAttributes="Bold" 
+                                           TextChanged="userName_TextChanged" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,20,0"/>
+                                </Frame>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                    <Label x:Name="lblErrorMessage" Text="Please ender valid mobile number!" Margin="10,10,0,0" TextColor="Red"/>
+                </StackLayout>
+                <buttons:SfButton Text="Next>>" x:Name="btnNext" HeightRequest="40" FontSize="Default" CornerRadius="15"  Margin="0,-30,0,0" HorizontalOptions="End" Clicked="BtnClicked_Next"/>
+            </StackLayout>
+
+            <StackLayout x:Name="PasswordStack" Grid.Row="4" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" WidthRequest="350" IsVisible="False">
+                
+                <StackLayout Grid.Row="4" Orientation="Vertical" HorizontalOptions="CenterAndExpand" WidthRequest="260">
+                    <Frame  BackgroundColor="Transparent" BorderColor="#d0f4de" Padding="0" HorizontalOptions="FillAndExpand" CornerRadius="30" >
+                        <Frame HeightRequest="40" HorizontalOptions="FillAndExpand" CornerRadius="15" BorderColor="Transparent" Padding="0" Margin="1">
+                            <Entry Text="{Binding Password}" Placeholder="Please enter OTP" TextColor="Black" FontSize="20"
+                                   FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,20,0"/>
+                        </Frame>
+                    </Frame>
+                    
+                    <buttons:SfButton Text="&lt; Back" HeightRequest="40" Background="Gray" CornerRadius="15"  FontSize="Default" Margin="0,20,0,0" HorizontalOptions="Center" Clicked="BtnClicked_Back"/>
+                    
+                </StackLayout>
+                
+                <buttons:SfButton x:Name="sfButton" Text="Login" HeightRequest="40" CornerRadius="15"  FontSize="Default" Margin="0,-60,0,0" 
+                                  HorizontalOptions="End" Command="{Binding MobileLoginCommand}"/>
+                <!--<Button Text="Login" HeightRequest="30" BackgroundColor="#7678ed" FontSize="Default" TextColor="Black" FontAttributes="Bold"
+             CornerRadius="15"  Margin="0,-60,0,0" HorizontalOptions="End"/>-->
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -55,14 +55,25 @@
 	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
 	  <None Remove="Resources\Images\avatar.png" />
 	  <None Remove="Resources\Images\bg_image.jpg" />
+	  <None Remove="Resources\Images\blacklogo.png" />
+	  <None Remove="Resources\Images\connectoai.svg" />
+	  <None Remove="Resources\Images\login.png" />
+	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Raw\sample-12s.mp3" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="2.0.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+		<PackageReference Include="DiffPlex" Version="1.7.1" />
+		<PackageReference Include="gstreamer-sharp-netcore" Version="0.0.8" />
+		<PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.33.0" />
+		<PackageReference Include="Microsoft.CognitiveServices.Speech.Extension.MAS" Version="1.33.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Identity.Client" Version="4.57.0" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="2.0.0" />
+		<PackageReference Include="Syncfusion.Maui.Buttons" Version="23.2.6" />
+		<PackageReference Include="Syncfusion.Maui.Inputs" Version="23.2.6" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
 	</ItemGroup>
 
@@ -72,28 +83,52 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="MobileLogin.xaml.cs">
+	    <DependentUpon>MobileLogin.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AudioPayerWindows.xaml.cs">
+	    <DependentUpon>AudioPayerWindows.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AudioPayerAndriod.xaml.cs">
+	    <DependentUpon>AudioPayerAndriod.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\MicCV.xaml.cs">
+	    <DependentUpon>MicCV.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AudioPayer.xaml">
+	  <MauiXaml Update="LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MobileLogin.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="NewPage1.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AudioPayerWindows.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AudioPayerAndriod.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Home.xaml">
+	  <MauiXaml Update="Views\MicCV.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Query.xaml">
+	  <MauiXaml Update="Views\ResponseCV.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Record.xaml">
+	  <MauiXaml Update="Pages\Home.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Settings.xaml">
+	  <MauiXaml Update="Pages\Settings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

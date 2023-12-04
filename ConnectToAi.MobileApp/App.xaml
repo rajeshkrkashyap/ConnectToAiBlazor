@@ -9,11 +9,17 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
 
+                
             </ResourceDictionary.MergedDictionaries>
+            <!--https://fontawesome.com/search-->
             <x:String x:Key="mic-off">&#xf131;</x:String>
             <x:String x:Key="mic-on">&#xf130;</x:String>
             <x:String x:Key="play">&#xf04b;</x:String>
             <x:String x:Key="pause">&#xf04c;</x:String>
+            <x:String x:Key="user">&#xf007;</x:String>
+            <x:String x:Key="volume-mute">&#xf6a9;</x:String>
+            <x:String x:Key="volume-high">&#xf027;</x:String>
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

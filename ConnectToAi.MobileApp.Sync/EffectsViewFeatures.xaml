@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ConnectToAi.MobileApp.Sync"
+             xmlns:effectsView="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core" Title="Effects View"
+             x:Class="ConnectToAi.MobileApp.Sync.EffectsViewFeatures">
+    <effectsView:SfEffectsView VerticalOptions="Center" TouchDownEffects="Ripple" HorizontalOptions="Center">
+        <Label Text="Click here for Effects" WidthRequest="200" HeightRequest="100"/>
+    </effectsView:SfEffectsView>
+</ContentPage>

@@ -4,34 +4,14 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ConnectToAi.MobileApp"
-    xmlns:view="clr-namespace:ConnectToAi.MobileApp.Views"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:view="clr-namespace:ConnectToAi.MobileApp.Pages"
+    Shell.FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
     x:Name="mainShell">
     <ShellContent 
-        x:Name="loginPage" 
-        Route="login"
-        ContentTemplate="{DataTemplate local:Login}"/>
-
-    <!--<FlyoutItem Title="Home" FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent 
-        x:Name="loginPage" 
-        Route="login"
-        ContentTemplate="{DataTemplate local:Login}"/>
-
-        <ShellContent
-        x:Name="homePage"    
-        Title="Home"
-        Route="Home"
-        ContentTemplate="{DataTemplate view:Home}"/>
-
-        <ShellContent
-        x:Name="queryPage"  
-        Title="Query"
-        Route="Query" 
-        ContentTemplate="{DataTemplate view:Query}"/>
-    </FlyoutItem>-->
-
+        x:Name="mobileLoginPage" 
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate local:LoginPage}"/>
     <TabBar>
         <Tab Title="Main">
             <ShellContent
@@ -40,7 +20,7 @@
                 Route="Home"
                 ContentTemplate="{DataTemplate view:Home}"/>
 
-            <ShellContent
+            <ShellContent 
                 Title="Settings"
                 Route="Settings" 
                 ContentTemplate="{DataTemplate view:Settings}"/>

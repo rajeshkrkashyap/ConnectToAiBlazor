@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:ConnectToAi.MobileApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:local="clr-namespace:ConnectToAi.MobileApp.Views"
+             x:Class="ConnectToAi.MobileApp.Pages.Home"
+             Title="Home">
+    <StackLayout x:Name="stackLayout">
+    </StackLayout>
+</ContentPage>

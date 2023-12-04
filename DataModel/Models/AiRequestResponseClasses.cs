@@ -22,6 +22,7 @@
         public string? InputType { get; set; } = "text";
         public string? UserId { get; set; }
         public string? Prompt { get; set; }
+        public Stream? StreamPrompt { get; set; }
         public bool IsStreamOutPut { get; set; } = false;
         public string? Subject { get; set; } = "English";
         public string? Language { get; set; } = "English";

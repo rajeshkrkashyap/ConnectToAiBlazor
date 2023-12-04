@@ -7,6 +7,8 @@
         public const string Register = "api/auth/register";
         public const string RefreshToken = "api/auth/refreshtoken";
 
+        public const string MobileLogin = "api/auth/MobileLogin";
+
         public const string ConfirmEmail = "api/auth/ConfirmEmail";
         public const string GetUserByEmail = "api/auth/GetUserByEmail";
         public const string IsEmailConfirmedAsync = "api/auth/IsEmailConfirmedAsync";
@@ -22,7 +24,8 @@
         public const string InstructionParentNode = "api/Instruction/ParentNode";
         public const string InstructionList = "api/Instruction/List";
         public const string InstructionGetById = "api/Instruction/GetById";
-        public const string InstructionGetBySubjectIdAndTitle = "api/Instruction/GetBySubjectIdAndTitle"; 
+        public const string InstructionGetBySubjectIdAndTitle = "api/Instruction/GetBySubjectIdAndTitle";
+        public const string InstructionGetByTitle = "api/Instruction/GetByTitle";
         public const string InstructionCreate = "api/Instruction/Create";
         public const string InstructionDelete = "api/Instruction/Delete";
         public const string InstructionUpdate = "api/Instruction/Update";
