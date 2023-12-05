@@ -34,7 +34,6 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSingleton<ErrorState>();
 
-
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<HttpClient>();
