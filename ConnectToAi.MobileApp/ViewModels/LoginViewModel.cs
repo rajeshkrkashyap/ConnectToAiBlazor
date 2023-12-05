@@ -1,6 +1,7 @@
 ﻿using Azure;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ConnectToAi.MobileApp.UtilityClasses;
 using DataModel;
 using DataModel.Models;
 using DataModel.Utility;
@@ -12,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +25,7 @@ namespace ConnectToAi.MobileApp.ViewModels
         public LoginPageViewModel(AppSettings appSettings)
         {
             _authService = new AuthService(appSettings);
+            PlatformviseDisplay();
             PopulatCountries();
         }
 
@@ -32,14 +35,43 @@ namespace ConnectToAi.MobileApp.ViewModels
         private string password;
 
         [ObservableProperty]
-        private bool isNext = true;
-        [ObservableProperty]
-        private bool isOTP;
-
-        [ObservableProperty]
         private string displayMessage = "Enter your mobile number to proceed.";
 
-        #region Form fields
+        #region Platform related Display settings
+        [ObservableProperty]
+        private int sfComboBoxWidthRequest;
+        [ObservableProperty]
+        private int sfComboBoxHeightRequest;
+        [ObservableProperty]
+        private Microsoft.Maui.Thickness sfComboBoxMargin;
+        private void PlatformviseDisplay()
+        {
+            switch (Device.RuntimePlatform)
+            {
+                case Device.Android:
+                    GlobalVariables.RuntimePlatform = "Android";
+                    SfComboBoxWidthRequest = 70;
+                    SfComboBoxHeightRequest = 40;
+                    SfComboBoxMargin = new Thickness(0, 35, 0, 0);
+                    break;
+                case Device.iOS:
+                    GlobalVariables.RuntimePlatform = "iOS";
+                    break;
+                case Device.WinUI:
+                    GlobalVariables.RuntimePlatform = "Windows";
+                    SfComboBoxWidthRequest = 70;
+                    SfComboBoxHeightRequest = 40;
+                    SfComboBoxMargin = new Thickness(0, 5, 0, 0);
+                    break;
+                default:
+                    GlobalVariables.RuntimePlatform = "Unknown";
+                    break;
+            }
+
+        }
+        #endregion
+
+        #region Form Fields
         [ObservableProperty]
         private int mobileNumber;
         [ObservableProperty]
@@ -48,31 +80,31 @@ namespace ConnectToAi.MobileApp.ViewModels
         private Country selectCountry;
         #endregion
 
+        #region Page Properties
+        [ObservableProperty]
+        private bool isNext = true;
+        [ObservableProperty]
+        private bool isOTP;
         [ObservableProperty]
         private Color textDsplayColor;
-
         [ObservableProperty]
         private string message = "";
-
         [ObservableProperty]
         private Timer displayTimer;
         [ObservableProperty]
         private int seconds = 20;
-
         [ObservableProperty]
         private bool isEnabled = false;
-
         [ObservableProperty]
         private bool isEntryEnabled = false;
-
         [ObservableProperty]
         private bool isBackVisible = false;
-
         [ObservableProperty]
         private Color buttonDisableColor = Colors.Gray;
-
         private readonly int durationInSeconds = 0; // Set the duration in seconds
-
+        [ObservableProperty]
+        private ObservableCollection<Country> countries;
+        #endregion
 
         private void StopTimer(bool isLogin)
         {
@@ -87,13 +119,6 @@ namespace ConnectToAi.MobileApp.ViewModels
                 }
             }
         }
-
-        //[RelayCommand]
-        //public void MobileText()
-        //{
-        //    IsEnabled = true;
-        //    ButtonDisableColor = Colors.Green;
-        //}
 
         [RelayCommand]
         public void UpdateTimer(object state)
@@ -154,7 +179,6 @@ namespace ConnectToAi.MobileApp.ViewModels
             }
         }
 
-
         [RelayCommand]
         public async Task Login()
         {
@@ -170,7 +194,6 @@ namespace ConnectToAi.MobileApp.ViewModels
                 await LoginOnPostAsync(response);
             }
         }
-
         private async Task LoginOnPostAsync(HttpResponseMessage response)
         {
             if (response != null && response.IsSuccessStatusCode)
@@ -247,9 +270,6 @@ namespace ConnectToAi.MobileApp.ViewModels
             }
         }
 
-        [ObservableProperty]
-        private ObservableCollection<Country> countries;
-
         public void PopulatCountries()
         {
             Countries = new ObservableCollection<Country>
@@ -317,7 +337,6 @@ namespace ConnectToAi.MobileApp.ViewModels
             };
             SelectCountry = Countries.First(c => c.Name == "IND");
         }
-
     }
 
     public class Country

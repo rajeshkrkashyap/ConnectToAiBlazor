@@ -35,22 +35,22 @@ xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
 
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                         <editors:SfComboBox x:Name="comboBox"
-                            WidthRequest="70"
+                            WidthRequest="{Binding SfComboBoxWidthRequest}"
                             ItemsSource="{Binding Countries}"
                             IsVisible="{Binding IsNext}" 
                             SelectedItem="{Binding SelectCountry}"
                             DisplayMemberPath="Name"
                             TextMemberPath="Name"   
-                            HeightRequest="40"
+                            HeightRequest="{Binding SfComboBoxHeightRequest}"
                             IsEditable="True"
                             IsClearButtonVisible="False"
-                            Margin="0,5,0,0"/>
+                            Margin="{Binding SfComboBoxMargin}"/>
 
-                        <core:SfTextInputLayout x:Name="txtMobileNumber"  IsVisible="{Binding IsNext}" Hint="Mobile number" WidthRequest="200" 
+                        <core:SfTextInputLayout x:Name="txtMobileNumber"  Hint="Mobile number" IsVisible="{Binding IsNext}"  WidthRequest="200" 
                                             ContainerType="None" 
                                             HelperText="Enter Mobile Number"
                                             ErrorText="Invalid Mobile number">
-                            <Entry  Text="{Binding MobileNumber}" Keyboard="Telephone"  />
+                            <Entry  Text="{Binding MobileNumber}" Keyboard="Telephone"  VerticalTextAlignment="End" />
                         </core:SfTextInputLayout>
                     </StackLayout>
                     <core:SfTextInputLayout x:Name="txtOTP"  IsVisible="{Binding IsOTP}" Hint="Enter OTP" WidthRequest="300" 

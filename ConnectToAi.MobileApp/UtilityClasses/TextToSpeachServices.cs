@@ -56,4 +56,44 @@ namespace ConnectToAi.MobileApp.UtilityClasses
 
         }
     }
+    public class Avatars
+    {
+        private readonly List<Avatar> _avatarList;
+        public Avatars()
+        {
+            _avatarList = new List<Avatar>();
+            CreateAvatarList();
+        }
+        public List<Avatar> AvatarList { get { return _avatarList; } }
+        public void CreateAvatarList()
+        {
+            AvatarList.Add(new Avatar()
+            {
+                Name = "Jenny",
+                Value = "en-US-JennyMultilingualNeural",
+                Gender = "Female",
+                Language = "en-US",
+                SpeakingStyle = "Soft"
+            });
+        }
+
+        //public const string Jenny = "en-US-JennyMultilingualNeural";
+        //public const string Jenny1 = "en-US-JennyNeural";
+        //public const string Guy = "en-US-GuyNeural";
+        //public const string Aria = "en-US-AriaNeural";
+        //public const string Davis = "en-US-DavisNeural";
+        //public const string Jenny1 = "en-US-JennyNeural";
+        //public const string Jenny1 = "en-US-JennyNeural";
+        //public const string Jenny1 = "en-US-JennyNeural";
+
+    }
+
+    public class Avatar
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Gender { get; set; }
+        public string Language { get; set; }
+        public string SpeakingStyle { get; set; }
+    }
 }

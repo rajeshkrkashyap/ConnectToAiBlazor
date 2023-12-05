@@ -6,8 +6,8 @@
         {
             InitializeComponent();
             var userDetailInfoStr = Preferences.Get("UserLoggedInKey", "");
-            Preferences.Remove("UserLoggedInKey");
-            Preferences.Clear();
+            //Preferences.Remove("UserLoggedInKey");
+            //Preferences.Clear();
 
             if (userDetailInfoStr.Length > 0)
             {
