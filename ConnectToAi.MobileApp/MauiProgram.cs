@@ -7,6 +7,9 @@ using DataModel.Utility;
 using Microsoft.Extensions.Logging;
 using Plugin.Maui.Audio;
 using Services;
+using Microsoft.Maui.Hosting;
+using ConnectToAi.MobileApp.Navigation;
+using CommunityToolkit.Maui;
 
 namespace ConnectToAi.MobileApp
 {
@@ -17,8 +20,8 @@ namespace ConnectToAi.MobileApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-            .ConfigureSyncfusionCore()
-                //.UseMauiCommunityToolkitMediaElement()
+                .ConfigureSyncfusionCore()
+                .UseMauiCommunityToolkitMediaElement()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -32,15 +35,31 @@ namespace ConnectToAi.MobileApp
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
-            builder.Services.AddTransient<AppSettings>();
-            builder.Services.AddTransient<LoginPageViewModel>();
-            builder.Services.AddTransient<Login>();
-            builder.Services.AddTransient<MobileLogin>();
-            builder.Services.AddTransient<LoginPage>();
-            builder.Services.AddTransient<AuthService>();
-            builder.Services.AddTransient<PromptService>();
-            builder.Services.AddSingleton(AudioManager.Current);
+
+            //register UI
+            //builder.Services.AddSingleton<Login>();
+            //builder.Services.AddSingleton<MobileLogin>();
+            builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddTransient<Home>();
+            builder.Services.AddTransient<Settings>();
+            builder.Services.AddTransient<InitialSetUp>();
+
+
+            //register ViewModel
+            builder.Services.AddSingleton<INavigationService, NavigationService>(); 
+            builder.Services.AddSingleton<LoginPageViewModel>();
+
+            builder.Services.AddTransient<HomeViewModel>();
+            builder.Services.AddTransient<AudioPlayerViewModel>();
+            builder.Services.AddTransient<ResponseCVViewModel>();
+
+
+            // Register other Service
+            builder.Services.AddSingleton<AuthService>();
+            builder.Services.AddSingleton<PromptService>();
+            builder.Services.AddSingleton(AudioManager.Current);
+            builder.Services.AddSingleton<AppSettings>();
+
 
             return builder.Build();
         }

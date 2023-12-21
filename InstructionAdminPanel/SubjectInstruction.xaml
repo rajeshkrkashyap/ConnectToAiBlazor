@@ -20,7 +20,8 @@
                 <!-- Label for TextBox -->
                 <Label Content="Enter Text:" Margin="25,25 0 10" HorizontalAlignment="Left"/>
                 <!-- TextBox for multiline text -->
-                <TextBox Name="textBox" Padding="10 10 10 10" TextWrapping="Wrap" Margin="0,18,0,0"  Width="1000" Height="600" HorizontalAlignment="Left"/>
+                <TextBox Name="textBox" TextWrapping="Wrap"  AcceptsReturn="True" VerticalScrollBarVisibility="Visible"
+                         Padding="10 10 10 10" MinLines="30" FontSize="14" Margin="0,18,0,0" Width="1000" HorizontalAlignment="Stretch"/>
             </StackPanel>
             <!-- Save Button -->
             <Button Content="Save" Width="80" Height="30" Margin="470,30,0,0" HorizontalAlignment="Center" Click="SaveButton_Click"/>

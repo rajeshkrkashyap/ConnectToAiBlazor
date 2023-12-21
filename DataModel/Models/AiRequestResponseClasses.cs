@@ -19,6 +19,9 @@
     }
     public class ClientPromptInput
     {
+        public string? InstructionId { get; set; }
+        public string? Name { get; set; }
+        public string? Age { get; set; }
         public string? InputType { get; set; } = "text";
         public string? UserId { get; set; }
         public string? Prompt { get; set; }

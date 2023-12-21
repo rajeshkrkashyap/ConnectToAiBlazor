@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConnectToAi.MobileApp.LoginPage"
+             x:Class="ConnectToAi.MobileApp.InitialSetUp"
              xmlns:system="clr-namespace:System;assembly=netstandard"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-             Title="LoginPage">
+             Title="InitialSetUp">
 
     <core:SfBusyIndicator  AnimationType="Cupertino"  IsRunning="{Binding IsRunning}">
         <Grid ColumnDefinitions="0.5*, 0.5*" RowDefinitions="0.3*, 0.7*" Background="{OnIdiom Default=Transparent, Desktop=#577590}">
@@ -18,7 +18,7 @@ xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                 <Image Source="connectoai.svg" Grid.Row="0"  Grid.Column="0"  HorizontalOptions="Center" Aspect="AspectFit" />
             </Border>
 
-            <Frame CornerRadius="0" Grid.Column="{OnIdiom Default=0, Desktop=1}"  BorderColor="White" HeightRequest="500" Background="White"
+            <Frame CornerRadius="0" Grid.Column="{OnIdiom Default=0, Desktop=1}"  BorderColor="White" HeightRequest="500" Background="AliceBlue"
                Grid.Row="{OnIdiom Default=1, Desktop=0}" 
                WidthRequest="380" VerticalOptions="{OnIdiom Default=Start, Desktop=Center}"
                Grid.ColumnSpan="{OnIdiom Default=2, Desktop=1}" 
@@ -27,40 +27,39 @@ xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                 <Grid IsClippedToBounds="True" HeightRequest="500">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100"/>
-                        <RowDefinition Height="{OnIdiom Default=130, Desktop=140}"/>
+                        <RowDefinition Height="{OnIdiom Default=130, Desktop=250}"/>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="40"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
                     <StackLayout Grid.Row="1">
-
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                            <editors:SfComboBox x:Name="comboBox"
-                            WidthRequest="{Binding SfComboBoxWidthRequest}"
-                            ItemsSource="{Binding Countries}"
-                            IsVisible="{Binding IsNext}" 
-                            SelectedItem="{Binding SelectCountry}"
-                            DisplayMemberPath="Name"
-                            TextMemberPath="Name"   
-                            HeightRequest="{Binding SfComboBoxHeightRequest}"
-                            IsEditable="True"
-                            IsClearButtonVisible="False"
-                            Margin="{Binding SfComboBoxMargin}"/>
-
-                            <core:SfTextInputLayout x:Name="txtMobileNumber"  Hint="Mobile number" IsVisible="{Binding IsNext}"  WidthRequest="200" 
-                                            ContainerType="None" 
-                                            HelperText="Enter Mobile Number"
-                                            ErrorText="Invalid Mobile number">
-                                <Entry  Text="{Binding MobileNumber}" Keyboard="Telephone"  VerticalTextAlignment="End" Margin="0,-10,0,0" />
-                            </core:SfTextInputLayout>
-                        </StackLayout>
-
-                        <core:SfTextInputLayout x:Name="txtOTP"  IsVisible="{Binding IsOTP}" Hint="Enter OTP" WidthRequest="300" 
+                        <core:SfTextInputLayout x:Name="txtName"  Hint="Enter Name" WidthRequest="300" 
                                         ContainerType="None" 
-                                        HelperText="Enter 6 digit OTP"
-                                        ErrorText="Invalid OTP">
-                            <Entry  Text = "{Binding OTP}" IsEnabled="{Binding IsEntryEnabled}" VerticalTextAlignment="End" TextChanged = "Entry_TextChanged"/>
+                                        HelperText="Enter your name"
+                                        ErrorText="Please enter your name">
+                            <Entry  Text = "{Binding Name}" IsEnabled="{Binding IsEntryEnabled}" />
                         </core:SfTextInputLayout>
+
+                        <editors:SfComboBox x:Name="genderComboBox" 
+                            WidthRequest="300"
+                            Margin="0,15,0,20"  
+                            ItemsSource="{Binding Genders}"
+                            SelectedItem="{Binding SelectGender}"
+                            HeightRequest="40"
+                            IsEditable="False"
+                            Placeholder="Select Gender"    
+                            Background="AliceBlue"
+                            IsClearButtonVisible="False"/>
+                        
+                        <editors:SfComboBox x:Name="LanguageComboBox" 
+                            WidthRequest="300"
+                            ItemsSource="{Binding Languages}"
+                            SelectedItem="{Binding SelectLanguage}"
+                            HeightRequest="40"
+                            IsEditable="False"
+                            Background="AliceBlue"
+                            Placeholder="Select Language"                    
+                            IsClearButtonVisible="False"/>
                         <!--<Entry x:Name="userName" Text="{Binding MobileNumber}" Placeholder="Mobile Number" TextColor="Black" FontSize="20" FontAttributes="Bold" 
                       VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="0,0,0,0"/>-->
                     </StackLayout>
@@ -68,7 +67,7 @@ xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                     HorizontalOptions="Center" HorizontalTextAlignment="Center" VerticalTextAlignment="Start">
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Welcome!" FontSize="32"   FontAttributes="Bold"/>
+                                <Span Text="Initial Setup!" FontSize="32"   FontAttributes="Bold"/>
                                 <Span Text="{x:Static system:Environment.NewLine}"/>
                                 <Span Text="{Binding DisplayMessage}" TextColor="{Binding TextDsplayColor}" FontSize="14"/>
                             </FormattedString>
@@ -82,30 +81,13 @@ xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
                   </HorizontalStackLayout>
                   <Label Text="Forgot password?" Grid.Column="1"  TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center" Padding="10,0,0,0" FontSize="12"  VerticalOptions="Center" />
                 </Grid>-->
-
-                    <buttons:SfButton Text="NEXT" x:Name="nextButton" VerticalOptions="End"
-                     HorizontalOptions="Fill" Margin="20,0,20,0"  
-                     Padding="0"  FontAttributes="Bold"
-                     IsVisible="{Binding IsNext}"
-                     Grid.Row="2" Background="{StaticResource Primary}" Command="{Binding SentOTPCommand}"/>
-
                     <buttons:SfButton Text="SUBMIT" x:Name="loginButton" VerticalOptions="End" Stroke="Transparent"
                      HorizontalOptions="Fill" Margin="20,0,20,0"  
                      Padding="0"  FontAttributes="Bold" 
                      IsVisible="{Binding IsOTP}"
                      IsEnabled="{Binding IsEnabled}"  
-                     Grid.Row="2" Background="{Binding ButtonDisableColor}" Command="{Binding MobileLoginCommand}" />
+                     Grid.Row="2" Background="{Binding ButtonDisableColor}" Command="{Binding UpdateCommand}" />
 
-                    <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="Center" >
-                        <Label Text= "Seconds: " IsVisible="{Binding IsOTP}" VerticalOptions="End" HorizontalTextAlignment="Center" TextColor="{Binding TextDsplayColor}" FontSize="14"/>
-                        <Label Text= "{Binding Seconds}" IsVisible="{Binding IsOTP}" VerticalOptions="End" HorizontalTextAlignment="Center" TextColor="{Binding TextDsplayColor}" FontSize="14"/>
-                    </StackLayout>
-
-                    <buttons:SfButton Text="BACK" x:Name="backButton" VerticalOptions="End" Stroke="Transparent"
-                  HorizontalOptions="Fill" Margin="20,0,20,0"  
-                  Padding="0"  FontAttributes="Bold" 
-                  IsVisible="{Binding IsBackVisible}"
-                  Grid.Row="4" Background="{StaticResource Gray200}" Command="{Binding BackCommand}"/>
                 </Grid>
             </Frame>
         </Grid>

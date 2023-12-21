@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ConnectToAi.MobileApp.Navigation;
 using Plugin.Maui.Audio;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace ConnectToAi.MobileApp.ViewModels
     {
         IAudioPlayer audioPlayer;
         System.Timers.Timer timer;
-        public AudioPlayerViewModel(Stream audioStream)
+        public AudioPlayerViewModel(Stream audioStream, INavigationService navigationService):base(navigationService)
         {
             audioPlayer = AudioManager.Current.CreatePlayer(audioStream);
         }
@@ -26,9 +27,6 @@ namespace ConnectToAi.MobileApp.ViewModels
 
         [ObservableProperty]
         public double sliderValue;
-
-        //[ObservableProperty]
-        //public int timeInSeconds;
 
         public double currentSliderValue;
 
@@ -53,7 +51,6 @@ namespace ConnectToAi.MobileApp.ViewModels
 
         private void ProgressBarPosition()
         {
-            //await test();
             timer = new System.Timers.Timer(50);
             timer.Elapsed += ElapsedHandler;
         }
@@ -62,13 +59,6 @@ namespace ConnectToAi.MobileApp.ViewModels
         {
             if (SliderValue < 100)
             {
-                //if (SliderValue == 0)
-                //{
-                //    TimeInSeconds = Convert.ToInt32(audioPlayer.Duration / 1000);
-                //}
-
-                //TimeInSeconds--;
-
                 SliderValue = (audioPlayer.CurrentPosition * 100) / (audioPlayer.Duration / 1000);
                 currentSliderValue = SliderValue;
 
@@ -81,12 +71,6 @@ namespace ConnectToAi.MobileApp.ViewModels
                     currentSliderValue = 0;
                 }
             }
-            //else
-            //{
-            //    // If you want to stop the timer once the SliderValue reaches 100,
-            //    // you can uncomment the following line:
-            //     timer.Stop();
-            //}
         }
 
         [RelayCommand]

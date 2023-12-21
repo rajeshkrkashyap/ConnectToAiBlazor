@@ -16,16 +16,24 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
+using ConnectToAi.MobileApp.Navigation;
+using ConnectToAi.MobileApp.Pages;
+
 
 namespace ConnectToAi.MobileApp.ViewModels
 {
     public partial class LoginPageViewModel : BaseViewModel
     {
         private readonly AuthService _authService;
-        public LoginPageViewModel(AppSettings appSettings)
+        private readonly SMSService _sMSService;
+        public LoginPageViewModel(AppSettings appSettings, INavigationService navigationService) : base(navigationService)
         {
             _authService = new AuthService(appSettings);
-            PlatformviseDisplay();
+            _sMSService = new SMSService(appSettings);
             PopulatCountries();
         }
 
@@ -37,43 +45,9 @@ namespace ConnectToAi.MobileApp.ViewModels
         [ObservableProperty]
         private string displayMessage = "Enter your mobile number to proceed.";
 
-        #region Platform related Display settings
-        [ObservableProperty]
-        private int sfComboBoxWidthRequest;
-        [ObservableProperty]
-        private int sfComboBoxHeightRequest;
-        [ObservableProperty]
-        private Microsoft.Maui.Thickness sfComboBoxMargin;
-        private void PlatformviseDisplay()
-        {
-            switch (Device.RuntimePlatform)
-            {
-                case Device.Android:
-                    GlobalVariables.RuntimePlatform = "Android";
-                    SfComboBoxWidthRequest = 70;
-                    SfComboBoxHeightRequest = 40;
-                    SfComboBoxMargin = new Thickness(0, 35, 0, 0);
-                    break;
-                case Device.iOS:
-                    GlobalVariables.RuntimePlatform = "iOS";
-                    break;
-                case Device.WinUI:
-                    GlobalVariables.RuntimePlatform = "Windows";
-                    SfComboBoxWidthRequest = 70;
-                    SfComboBoxHeightRequest = 40;
-                    SfComboBoxMargin = new Thickness(0, 5, 0, 0);
-                    break;
-                default:
-                    GlobalVariables.RuntimePlatform = "Unknown";
-                    break;
-            }
-
-        }
-        #endregion
-
         #region Form Fields
         [ObservableProperty]
-        private int mobileNumber;
+        private Int64 mobileNumber;
         [ObservableProperty]
         private int oTP;
         [ObservableProperty]
@@ -104,6 +78,8 @@ namespace ConnectToAi.MobileApp.ViewModels
         private readonly int durationInSeconds = 0; // Set the duration in seconds
         [ObservableProperty]
         private ObservableCollection<Country> countries;
+        [ObservableProperty]
+        private bool isRunning = false;
         #endregion
 
         private void StopTimer(bool isLogin)
@@ -132,12 +108,14 @@ namespace ConnectToAi.MobileApp.ViewModels
         }
 
         [RelayCommand]
-        public void SentOTP()
+        public async Task SentOTP()
         {
             IsEntryEnabled = true;
             Seconds = 20;
             DisplayTimer = new Timer(UpdateTimer, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            var selectedCountryValue = SelectCountry.Code;
             //Send OTP to mobile number using API
+            //await _sMSService.SendSMS(MobileNumber.ToString(), SelectCountry.Code);
 
             IsNext = false;
             IsOTP = true;
@@ -159,23 +137,50 @@ namespace ConnectToAi.MobileApp.ViewModels
         [RelayCommand]
         public async Task MobileLogin()
         {
+            IsRunning = true;
             StopTimer(true);
-            var number = MobileNumber;
-            var otp = OTP;
+
             var selectedCountryValue = SelectCountry;
 
             //validate OTP from SMS API
+            if (OTP.ToString().Length < 6 && OTP.ToString().Length > 6)
+            {
+                return;
+            }
+
+            if (OTP != 123456)
+            {
+                return;
+            }
 
             Message = "";
             LoginRegisterMobileViewModel loginViewModel = new LoginRegisterMobileViewModel
             {
                 MobileNumber = MobileNumber.ToString(),
-                OTP = otp.ToString(),
+                OTP = OTP.ToString(),
             };
+
             var response = await _authService.MobileLoginAsync(loginViewModel);
             if (response != null)
             {
                 await LoginOnPostAsync(response);
+                IsRunning = false;
+
+                string selectCountryStr = JsonConvert.SerializeObject(SelectCountry);
+                Preferences.Set("MobileNumberKey", MobileNumber.ToString());
+                Preferences.Set("SelectCountryKey", selectCountryStr);
+
+                var userDetailInfoStr = Preferences.Get("UserLoggedInKey", "");
+                UserDetail userDetail = JsonConvert.DeserializeObject<UserDetail>(userDetailInfoStr);
+
+                if (string.IsNullOrEmpty(userDetail.Name))
+                {
+                    await NavigationService.NavigateToAsync(nameof(InitialSetUp));
+                }
+                else
+                {
+                    await NavigationService.NavigateToAsync(nameof(Home));
+                }
             }
         }
 
@@ -221,6 +226,9 @@ namespace ConnectToAi.MobileApp.ViewModels
                                     string mobileNo = jsontoken.Claims.FirstOrDefault(f => f.Type == "MobileNumber").Value;
                                     string balanceTokens = jsontoken.Claims.FirstOrDefault(f => f.Type == "BalanceTokens").Value;
                                     string subscriptionEndDate = jsontoken.Claims.FirstOrDefault(f => f.Type == "SubscriptionEndDate").Value;
+                                    string language = jsontoken.Claims.FirstOrDefault(f => f.Type == "Language").Value;
+                                    string countryCode = jsontoken.Claims.FirstOrDefault(f => f.Type == "CountryCode").Value;
+                                    string gender = jsontoken.Claims.FirstOrDefault(f => f.Type == "Gender").Value;
                                     string email = UserName;
 
                                     var userDetail = new UserDetail
@@ -233,6 +241,10 @@ namespace ConnectToAi.MobileApp.ViewModels
                                         UserAvatar = !string.IsNullOrWhiteSpace(userAvatar) ? $"{ApiUrl.ApiBaseURL}/{userAvatar}" : "",
                                         UserID = userID,
                                         Tokens = Convert.ToDecimal(balanceTokens),
+                                        Language = language,
+                                        CountryCode = countryCode,
+                                        Gender = gender
+
                                         //AppSettingCookie = appSettingCookie
                                     };
 

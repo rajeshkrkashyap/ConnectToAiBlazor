@@ -1,8 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ConnectToAi.MobileApp.Navigation;
 using DataModel;
+using DataModel.Entities;
 using DataModel.Models;
 using DataModel.Utility;
+using Newtonsoft.Json;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -15,31 +18,47 @@ namespace ConnectToAi.MobileApp.ViewModels
     public partial class HomeViewModel : BaseViewModel
     {
         private readonly PromptService _promptService;
-        public HomeViewModel(AppSettings appSettings)
+        public HomeViewModel(AppSettings appSettings, INavigationService navigationService) : base(navigationService)
         {
             _promptService = new PromptService(appSettings);
         }
 
         public async Task<HttpResponseMessage?> SendPromtCommand(string speachText)
         {
-            // Read the file content into a audioStream
-            //byte[] audioStreamBytes = new byte[audioStreamPrompt.Length];
-            //audioStreamPrompt.Read(audioStreamBytes, 0, (int)audioStreamPrompt.Length);
+            var userDetailInfoStr = Preferences.Get("UserLoggedInKey", "");
+            var userDetail = JsonConvert.DeserializeObject<UserDetail>(userDetailInfoStr);
 
-            // Convert byte array to base64-encoded string
-            //string base64Content = Convert.ToBase64String(audioStreamBytes);
-
-            // Create a JSON payload with the base64-encoded file content
-            //string jsonPayload = $"{{\"fileContent\": \"{base64Content}\"}}";
+            string instructionId = "C8CF1F0C-024A-4194-A73A-88910808CD59";
+            if (userDetail.Language == "Talking Avatar")
+            {
+                instructionId = "C8CF1F0C-024A-4194-A73A-88910808CD59";
+            }
+            else
+            {
+                instructionId = "C8CF1F0C-024A-4194-A73A-88910808CD59";
+            }
+            Avatar aiAvatar = null;
+            var aiAvatarStr = Preferences.Get("AiAvatarName", "");
+            if (string.IsNullOrEmpty(aiAvatarStr))
+            {
+                aiAvatar = new Avatar() { Country = "USA", Language = "English", Name = "Jenny", Gender = "Female", Value = "en-US-JennyNeural" };
+            }
+            else
+            {
+                aiAvatar = JsonConvert.DeserializeObject<Avatar>(aiAvatarStr);
+            }
 
             ClientPromptInput clientPromptInput = new ClientPromptInput
             {
                 Prompt = speachText,
                 InputType = "text",
-                UserId = "a1769504-6f90-41b3-afba-3d591f1489f7"
+                UserId = userDetail.UserID,
+                Name = userDetail.Name,
+                InstructionId = instructionId,
+                Language = aiAvatar.Language
             };
 
-            return await _promptService.PropcessPrompt(clientPromptInput);
+            return await _promptService.PropcessTalkingAvatarPrompt(clientPromptInput);
         }
 
     }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             x:Class="ConnectToAi.MobileApp.Views.SettingsCV">
+    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <StackLayout Orientation="Horizontal" Margin="20,20,20,20">
+            <Label Text= "Select a speaker: " TextColor="{Binding TextDsplayColor}" Margin="0,20,0,0" FontSize="14"/>
+            <editors:SfComboBox x:Name="comboBox"
+                Margin="20,0,0,0"
+                WidthRequest="200"
+                ItemsSource="{Binding AiAvatars}"
+                SelectedItem="{Binding SelectAiAvatar, Mode=TwoWay}"
+                DisplayMemberPath="Name"
+                TextMemberPath="Name"   
+                IsEditable="True"
+                SelectionChanged="ComboBox_SelectionChanged"/>
+        </StackLayout>
+        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Start">
+            <buttons:SfButton Text="LOGOUT" x:Name="logOutButton" VerticalOptions="End" Stroke="Transparent" 
+           Margin="20,0,20,0"  Padding="0"  FontAttributes="Bold" 
+           Background="Beige"
+           WidthRequest="100" 
+           FontSize="12"
+           Command="{Binding LogOutCommand}" />
+            
+        </StackLayout>
+
+    </StackLayout>
+</ContentView>
+ 

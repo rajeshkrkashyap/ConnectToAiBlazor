@@ -57,7 +57,7 @@
         {
             ToggleMic.Toggle();
         }  
-        
+
         UserInputText = await JS.InvokeAsync<string>("getInputText");
         if (string.IsNullOrEmpty(UserInputText))
         {
@@ -79,6 +79,9 @@
         ClientPromptInput.InputType = "text";
         ClientPromptInput.Prompt = userPrompt;
         ClientPromptInput.UserId = UserDetail.UserID;
+        ClientPromptInput.Name = UserDetail.Name;
+        ClientPromptInput.Language = UserDetail.Language;
+
         AppUserSettingService appUserSettingService = new AppUserSettingService(appSettings);
         var appUserSetting = await appUserSettingService.GetAppSettingByAppUserIdAsync(UserDetail.UserID);
 

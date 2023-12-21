@@ -1,5 +1,4 @@
 using ConnectToAi.MobileApp.ViewModels;
-using DataModel.Utility;
 
 namespace ConnectToAi.MobileApp.Views;
 

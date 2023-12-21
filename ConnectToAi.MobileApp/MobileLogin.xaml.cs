@@ -1,3 +1,4 @@
+using ConnectToAi.MobileApp.Navigation;
 using ConnectToAi.MobileApp.ViewModels;
 using DataModel.Utility;
 using Microsoft.Identity.Client;
@@ -7,9 +8,9 @@ namespace ConnectToAi.MobileApp;
 
 public partial class MobileLogin : ContentPage
 {
-    public MobileLogin(AppSettings appSettings)
+    public MobileLogin(AppSettings appSettings, INavigationService navigationService)
     {
-        BindingContext = new LoginPageViewModel(appSettings);
+        BindingContext = new LoginPageViewModel(appSettings, navigationService);
         InitializeComponent();
         userName.Text = string.Empty;
     }

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ConnectToAi.MobileApp.Views.MicCV" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+             x:Class="ConnectToAi.MobileApp.Views.MicCV" 
+             xmlns:playerview="clr-namespace:ConnectToAi.MobileApp.Views.Settings"
+             VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
     <StackLayout>
         <StackLayout VerticalOptions="EndAndExpand">
-            <ScrollView Margin="0" VerticalScrollBarVisibility="Never"  VerticalOptions="FillAndExpand">
+            <ScrollView x:Name="myScrollView" Margin="0" VerticalScrollBarVisibility="Never"  VerticalOptions="FillAndExpand">
                 <StackLayout VerticalOptions="EndAndExpand" x:Name="listViewItem" Margin="5" Spacing="5">
                 </StackLayout>
             </ScrollView>
@@ -21,6 +23,7 @@
                     <FontImageSource FontFamily="FAS" Glyph="{StaticResource mic-on}" Color="red" Size="80" />
                 </ImageButton.Source>
             </ImageButton>
+            <playerview:AvatarPlayer ZIndex="1" Background="Transparent" HorizontalOptions="End"/>
         </StackLayout>
     </StackLayout>
 </ContentView>

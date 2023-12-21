@@ -73,6 +73,25 @@ namespace Services
             return returnResponse;
         }
 
+        public async Task<AppUser> Update(AppUser appUser)
+        {
+            var returnResponse = new AppUser();
+            using (var client = new HttpClient())
+            {
+                var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.AppUserUpdate}";
+                var serializedStr = JsonConvert.SerializeObject(appUser);
+
+                var response = await client.PostAsync(url, new StringContent(serializedStr, Encoding.UTF8, "application/json"));
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string contentStr = await response.Content.ReadAsStringAsync();
+                    returnResponse = JsonConvert.DeserializeObject<AppUser>(contentStr);
+                }
+            }
+            return returnResponse;
+        }
+
 
     }
 }

@@ -1,14 +1,17 @@
-﻿namespace DataModel
+﻿using static System.Net.WebRequestMethods;
+
+namespace DataModel
 {
     public class ApiUrl
     {
-        public const string ApiBaseURL = "https://connecttoapi.in/";
+        public const string ApiBaseURL = "https://localhost:5001/"; //"https://connecttoapi.in/";
+
         public const string Login = "api/auth/login";
         public const string Register = "api/auth/register";
         public const string RefreshToken = "api/auth/refreshtoken";
 
         public const string MobileLogin = "api/auth/MobileLogin";
-
+        public const string SMSSend = "api/SMS/send";
         public const string ConfirmEmail = "api/auth/ConfirmEmail";
         public const string GetUserByEmail = "api/auth/GetUserByEmail";
         public const string IsEmailConfirmedAsync = "api/auth/IsEmailConfirmedAsync";
@@ -16,6 +19,7 @@
         public const string ResetPasswordAsync = "api/auth/ResetPasswordAsync";
         public const string AddToRoleAsync = "api/auth/AddToRoleAsync";
 
+        public const string GptPropcessTalkingAvatarPrompt = "api/gpt/PropcessTalkingAvatarPrompt";
         public const string GptPropcessPrompt = "api/gpt/PropcessPrompt";
         public const string GptPropcessImagePrompt = "api/gpt/PropcessImagePrompt";
         public const string GetAllStudents = "api/Students/GetAllStudent";
@@ -66,6 +70,7 @@
         public const string AppUserList = "api/AppUser/List";
         public const string AppUserGetById = "api/AppUser/GetById";
         public const string AppUserUpdateTokens = "api/AppUser/UpdateTokens";
+        public const string AppUserUpdate = "api/AppUser/Update";
 
 
         public const string TopicList = "api/Topic/List";

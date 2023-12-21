@@ -16,6 +16,16 @@ namespace Services
         {
         }
 
+        public async Task<HttpResponseMessage?> PropcessTalkingAvatarPrompt(ClientPromptInput clientPromptInput)
+        {
+            using (var client = new HttpClient())
+            {
+                var url = $"{AppSettings.ApiBaseUrl}{ApiUrl.GptPropcessTalkingAvatarPrompt}";
+                var serializedStr = JsonConvert.SerializeObject(clientPromptInput);
+                return await client.PostAsync(url, new StringContent(serializedStr, Encoding.UTF8, "application/json"));
+            }
+        }
+
         public async Task<HttpResponseMessage?> PropcessPrompt(ClientPromptInput clientPromptInput)
         {
             using (var client = new HttpClient())

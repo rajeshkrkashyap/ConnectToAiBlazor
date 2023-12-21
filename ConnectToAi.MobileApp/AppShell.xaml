@@ -4,7 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:ConnectToAi.MobileApp"
-    xmlns:view="clr-namespace:ConnectToAi.MobileApp.Pages"
+    xmlns:page="clr-namespace:ConnectToAi.MobileApp.Pages"
     Shell.FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
     x:Name="mainShell">
@@ -12,18 +12,24 @@
         x:Name="mobileLoginPage" 
         Route="LoginPage"
         ContentTemplate="{DataTemplate local:LoginPage}"/>
+    <ShellContent 
+        IsVisible="False"
+        x:Name="initialSetUp" 
+        Route="InitialSetUp"
+        ContentTemplate="{DataTemplate local:InitialSetUp}"/>
     <TabBar>
         <Tab Title="Main">
             <ShellContent
                 x:Name="homePage"    
                 Title="Home"
                 Route="Home"
-                ContentTemplate="{DataTemplate view:Home}"/>
+                ContentTemplate="{DataTemplate page:Home}"/>
 
             <ShellContent 
+                x:Name="settingsPage"    
                 Title="Settings"
                 Route="Settings" 
-                ContentTemplate="{DataTemplate view:Settings}"/>
+                ContentTemplate="{DataTemplate page:Settings}"/>
         </Tab>
     </TabBar>
 </Shell>

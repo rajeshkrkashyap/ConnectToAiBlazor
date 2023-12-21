@@ -1,17 +1,40 @@
-﻿namespace ConnectToAi.MobileApp
+﻿using ConnectToAi.MobileApp.Pages;
+using ConnectToAi.MobileApp.UtilityClasses;
+
+namespace ConnectToAi.MobileApp
 {
     public partial class AppShell : Shell
     {
         public AppShell()
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(Home), typeof(Home));
+            Routing.RegisterRoute(nameof(Settings), typeof(Settings));
+            Routing.RegisterRoute(nameof(InitialSetUp), typeof(InitialSetUp));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+
             var userDetailInfoStr = Preferences.Get("UserLoggedInKey", "");
-            //Preferences.Remove("UserLoggedInKey");
-            //Preferences.Clear();
 
             if (userDetailInfoStr.Length > 0)
             {
-                mainShell.CurrentItem = homePage;
+                var page = Preferences.Get("LastPageKey", "");
+                switch (page)
+                {
+                    case "Home":
+                        mainShell.CurrentItem = homePage;
+                        break;
+                    case "Settings":
+                        mainShell.CurrentItem = settingsPage;
+                        break;
+                    case "InitialSetUp":
+                        mainShell.CurrentItem = initialSetUp;
+                        initialSetUp.IsVisible = true;
+                        break;
+                    default:
+                        mainShell.CurrentItem = settingsPage;
+                        break;
+                }
+
                 mobileLoginPage.IsVisible = false;
             }
             else

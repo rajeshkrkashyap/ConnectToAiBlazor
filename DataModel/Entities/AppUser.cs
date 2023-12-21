@@ -7,6 +7,8 @@ namespace DataModel.Entities
     {
         [MaxLength(50)]
         public string? Name { get; set; } = null!;
+        public string? Language { get; set; } = "English";
+        public string? CountryCode { get; set; }
         public string? Gender { get; set; }
         public string? Address { get; set; }
         public string? RefreshToken { get; set; }

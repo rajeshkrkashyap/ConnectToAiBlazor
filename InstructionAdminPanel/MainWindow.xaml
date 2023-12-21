@@ -30,7 +30,7 @@
                 <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="Language" Width="30" Height="30" VerticalAlignment="Center" Margin="5"/>
-                        <TextBlock x:Name="txtEnglish" Text="English" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
+                        <TextBlock x:Name="txtEnglish" Text="Talking Avatar" FontSize="17" VerticalAlignment="Center" Margin="20 0"/>
                     </StackPanel>
                 </ListViewItem>
                 <ListViewItem Height="60" BorderThickness="0" Selected="ListViewItem_Selected">

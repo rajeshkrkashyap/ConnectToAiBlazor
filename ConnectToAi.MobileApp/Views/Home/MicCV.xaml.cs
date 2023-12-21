@@ -1,8 +1,10 @@
+using ConnectToAi.MobileApp.Navigation;
 using ConnectToAi.MobileApp.UtilityClasses;
 using ConnectToAi.MobileApp.ViewModels;
 using DataModel.Models;
 using DataModel.Utility;
 using Plugin.Maui.Audio;
+using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ConnectToAi.MobileApp.Views;
@@ -10,15 +12,15 @@ namespace ConnectToAi.MobileApp.Views;
 public partial class MicCV : ContentView
 {
     //private int totalTime = 100; // Set the total time of your audio in seconds
-    readonly IAudioManager _audioManager;
     readonly IAudioRecorder _audioRecorder;
 
-    string audioFilePath;
-    const string subscription = "13296b15a6a447ef8d1d904138a560d5";
-    const string region = "centralus";
-    public MicCV(IAudioManager audioManager, AppSettings appSettings)
+    //const string subscription = "13296b15a6a447ef8d1d904138a560d5";
+    //const string region = "centralus";
+    private INavigationService navigationService;
+    public MicCV(IAudioManager audioManager, AppSettings appSettings, INavigationService _navigationService)
     {
-        BindingContext = new HomeViewModel(appSettings);
+        navigationService = _navigationService;
+        BindingContext = new HomeViewModel(appSettings, navigationService);
 
         InitializeComponent();
         _audioRecorder = audioManager.CreateRecorder();
@@ -32,9 +34,10 @@ public partial class MicCV : ContentView
         {
             imgOffMicButton.HeightRequest = 80;
             imgOnMicButton.HeightRequest = 80;
-
         }
+
     }
+    private ScrollView MyScrollView => (ScrollView)FindByName("myScrollView");
 
     private async void ImageOffButton_Clicked(object sender, EventArgs e)
     {
@@ -57,7 +60,7 @@ public partial class MicCV : ContentView
 
             ////await SynthesisToSpeakerAsync(speachText);
             string responseText = "";
-
+           
             if (speachText.Length > 0)
             {
                 var context = (HomeViewModel)BindingContext;
@@ -67,9 +70,13 @@ public partial class MicCV : ContentView
             {
                 responseText = "Sorry no response!";
             }
-            this.listViewItem.Children.Add(new ResponseCV(responseText, true));
+
+            this.listViewItem.Children.Add(new ResponseCV(responseText, navigationService));
+
+            await MyScrollView.ScrollToAsync(-20, MyScrollView.ContentSize.Height, true);
         }
     }
+  
     private async void ImageOnButton_Clicked(object sender, EventArgs e)
     {
         imgOffMicButton.IsVisible = true;
@@ -78,13 +85,14 @@ public partial class MicCV : ContentView
         var STREAM = recordredAudio.GetAudioStream();
         if (Device.RuntimePlatform == Device.WinUI)
         {
-            this.listViewItem.Children.Add(new AudioPayerWindows(new AudioPlayerViewModel(STREAM)));
+            this.listViewItem.Children.Add(new AudioPayerWindows(new AudioPlayerViewModel(STREAM, navigationService)));
         }
         else
         {
-            this.listViewItem.Children.Add(new AudioPayerAndriod(new AudioPlayerViewModel(STREAM)));
+            this.listViewItem.Children.Add(new AudioPayerAndriod(new AudioPlayerViewModel(STREAM, navigationService)));
         }
 
+        await MyScrollView.ScrollToAsync(-20, MyScrollView.ContentSize.Height, true);
         //var text = await SpeachRecognition.RecognitionWithMicrophoneAsync();
         //var context = (HomeViewModel)BindingContext;
         //speachText = await SpeachRecognition.SpeechRecognitionWithCompressedInputPullStreamAudio(STREAM);
@@ -105,16 +113,7 @@ public partial class MicCV : ContentView
                         var chatCompletion = System.Text.Json.JsonSerializer.Deserialize<ChatCompletion>(mainResponse);
                         if (chatCompletion != null && chatCompletion.choices.Count() > 0)
                         {
-                            var content = chatCompletion.choices[0].message.content;
-                            ////var altTexts = ProcessResponseContent(content);
-                            //ResponseResult responseResult = new()
-                            //{
-                            //    UserPrompt = userPromt,
-                            //    AltTexts = altTexts,
-                            //    Content = content,
-                            //};
-                            //return JsonConvert.SerializeObject(responseResult);
-                            return content;
+                            return chatCompletion.choices[0].message.content;
                         }
                     }
                 }

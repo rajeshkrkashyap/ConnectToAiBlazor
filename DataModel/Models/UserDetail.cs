@@ -10,6 +10,8 @@
         public string? Email { get; set; }
         public string? UserAvatar { get; set; }
         public decimal Tokens { get; set; }
-
+        public string? Language { get; set; }
+        public string? CountryCode { get; set; }
+        public string? Gender { get; set; }
     }
 }

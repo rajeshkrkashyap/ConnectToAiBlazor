@@ -53,6 +53,7 @@
 	  <None Remove="Resources\Fonts\Font-Awesome- 6-Free-Regular-400.otf" />
 	  <None Remove="Resources\Fonts\Font-Awesome- 6-Free-Solid-900.otf" />
 	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
+	  <None Remove="Resources\Images\avatar.mp4" />
 	  <None Remove="Resources\Images\avatar.png" />
 	  <None Remove="Resources\Images\bg_image.jpg" />
 	  <None Remove="Resources\Images\blacklogo.png" />
@@ -60,6 +61,10 @@
 	  <None Remove="Resources\Images\login.png" />
 	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Raw\sample-12s.mp3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Raw\avatar.mp4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -83,24 +88,30 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="InitialSetUp.xaml.cs">
+	    <DependentUpon>InitialSetUp.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="MobileLogin.xaml.cs">
 	    <DependentUpon>MobileLogin.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Login.xaml.cs">
 	    <DependentUpon>Login.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AudioPayerWindows.xaml.cs">
+	  <Compile Update="Views\Home\AudioPayerWindows.xaml.cs">
 	    <DependentUpon>AudioPayerWindows.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\AudioPayerAndriod.xaml.cs">
+	  <Compile Update="Views\Home\AudioPayerAndriod.xaml.cs">
 	    <DependentUpon>AudioPayerAndriod.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\MicCV.xaml.cs">
+	  <Compile Update="Views\Home\MicCV.xaml.cs">
 	    <DependentUpon>MicCV.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="InitialSetUp.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -110,25 +121,31 @@
 	  <MauiXaml Update="NewPage1.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AudioPayerWindows.xaml">
+	  <MauiXaml Update="Views\Home\AudioPayerWindows.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AudioPayerAndriod.xaml">
+	  <MauiXaml Update="Views\Home\AudioPayerAndriod.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\MicCV.xaml">
+	  <MauiXaml Update="Views\Settings\AvatarPlayer.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ResponseCV.xaml">
+	  <MauiXaml Update="Views\Home\MicCV.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Home\ResponseCV.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Home.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Settings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Settings\SettingsCV.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
