@@ -17,19 +17,21 @@ namespace ConnectToAi.MobileApp.ViewModels
         public SettingsViewModel(INavigationService navigationService) : base(navigationService)
         {
             PopulatAiAvatars();
+            PopulatCountries();
             var aiAvatarStr = Preferences.Get("AiAvatarName", "");
             if (string.IsNullOrEmpty(aiAvatarStr))
             {
                 var aiAvatar = JsonConvert.DeserializeObject<Avatar>(aiAvatarStr);
                 SelectAiAvatar = aiAvatar;
             }
+
         }
 
         [ObservableProperty]
         private Avatar selectAiAvatar;
         [ObservableProperty]
         private ObservableCollection<Avatar> aiAvatars;
-      
+
         public void PopulatAiAvatars()
         {
             AiAvatars = new ObservableCollection<Avatar>
@@ -68,7 +70,7 @@ namespace ConnectToAi.MobileApp.ViewModels
 
             SelectAiAvatar = AiAvatars.First(c => c.Name == "Jenny");
         }
-        
+
         [RelayCommand]
         public void LogOut()
         {
@@ -98,16 +100,6 @@ namespace ConnectToAi.MobileApp.ViewModels
                 Gender = "Female",
             });
         }
-
-        //public const string Jenny = "en-US-JennyMultilingualNeural";
-        //public const string Jenny1 = "en-US-JennyNeural";
-        //public const string Guy = "en-US-GuyNeural";
-        //public const string Aria = "en-US-AriaNeural";
-        //public const string Davis = "en-US-DavisNeural";
-        //public const string Jenny1 = "en-US-JennyNeural";
-        //public const string Jenny1 = "en-US-JennyNeural";
-        //public const string Jenny1 = "en-US-JennyNeural";
-
     }
     public class Avatar
     {

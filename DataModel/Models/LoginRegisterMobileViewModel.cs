@@ -21,6 +21,6 @@ namespace DataModel.Models
 
         [Required]
         [StringLength(50)]
-        public string Role { get; set; } = "student";
+        public string Role { get; set; } = "avatar";
     }
 }

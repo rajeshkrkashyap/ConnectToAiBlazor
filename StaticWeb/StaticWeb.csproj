@@ -865,4 +865,8 @@
     <None Include="wwwroot\master\_slider_vertical.min.html" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
+  </ItemGroup>
+
 </Project>

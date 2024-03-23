@@ -1,5 +1,6 @@
 ﻿using ConnectToAi.MobileApp.Pages;
 using ConnectToAi.MobileApp.UtilityClasses;
+using Microsoft.Maui.Controls.Internals;
 
 namespace ConnectToAi.MobileApp
 {
@@ -12,7 +13,7 @@ namespace ConnectToAi.MobileApp
             Routing.RegisterRoute(nameof(Settings), typeof(Settings));
             Routing.RegisterRoute(nameof(InitialSetUp), typeof(InitialSetUp));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-
+            Routing.RegisterRoute(nameof(PaymentPage), typeof(PaymentPage));
             var userDetailInfoStr = Preferences.Get("UserLoggedInKey", "");
 
             if (userDetailInfoStr.Length > 0)
@@ -30,6 +31,9 @@ namespace ConnectToAi.MobileApp
                         mainShell.CurrentItem = initialSetUp;
                         initialSetUp.IsVisible = true;
                         break;
+                    //case "Payment":
+                    //    mainShell.CurrentItem = paymentPage;
+                    //    break;
                     default:
                         mainShell.CurrentItem = settingsPage;
                         break;
@@ -42,6 +46,6 @@ namespace ConnectToAi.MobileApp
                 mobileLoginPage.IsVisible = true;
                 mainShell.CurrentItem = mobileLoginPage;
             }
-        }
+        }     
     }
 }

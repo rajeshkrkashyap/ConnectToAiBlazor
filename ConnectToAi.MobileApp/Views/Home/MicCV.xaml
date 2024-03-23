@@ -23,7 +23,7 @@
                     <FontImageSource FontFamily="FAS" Glyph="{StaticResource mic-on}" Color="red" Size="80" />
                 </ImageButton.Source>
             </ImageButton>
-            <playerview:AvatarPlayer ZIndex="1" Background="Transparent" HorizontalOptions="End"/>
+            <playerview:AvatarPlayer ZIndex="1" Background="Transparent" HorizontalOptions="End" IsVisible="False"/>
         </StackLayout>
     </StackLayout>
 </ContentView>

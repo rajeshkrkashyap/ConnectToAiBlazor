@@ -4,29 +4,40 @@
              xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
              xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
              x:Class="ConnectToAi.MobileApp.Views.SettingsCV">
-    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <StackLayout Orientation="Horizontal" Margin="20,20,20,20">
-            <Label Text= "Select a speaker: " TextColor="{Binding TextDsplayColor}" Margin="0,20,0,0" FontSize="14"/>
-            <editors:SfComboBox x:Name="comboBox"
-                Margin="20,0,0,0"
-                WidthRequest="200"
-                ItemsSource="{Binding AiAvatars}"
-                SelectedItem="{Binding SelectAiAvatar, Mode=TwoWay}"
-                DisplayMemberPath="Name"
-                TextMemberPath="Name"   
-                IsEditable="True"
-                SelectionChanged="ComboBox_SelectionChanged"/>
-        </StackLayout>
-        <StackLayout Orientation="Vertical" VerticalOptions="End" HorizontalOptions="Start">
-            <buttons:SfButton Text="LOGOUT" x:Name="logOutButton" VerticalOptions="End" Stroke="Transparent" 
-           Margin="20,0,20,0"  Padding="0"  FontAttributes="Bold" 
-           Background="Beige"
-           WidthRequest="100" 
-           FontSize="12"
-           Command="{Binding LogOutCommand}" />
-            
-        </StackLayout>
 
-    </StackLayout>
+    <Frame BorderColor="Azure" CornerRadius="0">
+        <StackLayout Orientation="Vertical">
+            <Label Text= "LANGUAGE  SETTINGS" FontAttributes="Bold" TextDecorations="Underline" Padding="0,5,5,0" FontSize="Subtitle" TextColor="Black"/>
+            <StackLayout Orientation="Horizontal" Margin="0,20,0,20">
+                <Label Text= "COUNTRY" TextColor="Black" Margin="0,15,20,0"/>
+                <editors:SfComboBox x:Name="comboBox"
+                       Padding="0,0,0,0"
+                       Margin="0,0,0,0"
+                       ItemsSource="{Binding Countries}"
+                       SelectedItem="{Binding SelectCountry}"
+                       DisplayMemberPath="Name"
+                       TextMemberPath="Name"   
+                       HeightRequest="{Binding SfComboBoxHeightRequest}"
+                       IsEditable="True"
+                       IsClearButtonVisible="False"
+                       HorizontalOptions="StartAndExpand" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,20">
+                <Label Text= "SPEAKER" TextColor="Black"   Margin="0,15,20,0"/>
+                <editors:SfComboBox x:Name="avatarComboBox"
+              Padding="0,0,0,0"
+              Margin="0,0,0,0"
+              ItemsSource="{Binding AiAvatars}"
+              SelectedItem="{Binding SelectAiAvatar}"
+              DisplayMemberPath="Name"
+              TextMemberPath="Name"  
+              HeightRequest="{Binding SfComboBoxHeightRequest}"
+              IsEditable="True"
+              IsClearButtonVisible="False"                                    
+              HorizontalOptions="StartAndExpand"
+              SelectionChanged="ComboBox_SelectionChanged"/>
+            </StackLayout>
+        </StackLayout>
+    </Frame>
 </ContentView>
  

@@ -10,6 +10,7 @@ using Services;
 using Microsoft.Maui.Hosting;
 using ConnectToAi.MobileApp.Navigation;
 using CommunityToolkit.Maui;
+using ConnectToAi.MobileApp.UtilityClasses;
 
 namespace ConnectToAi.MobileApp
 {
@@ -43,7 +44,7 @@ namespace ConnectToAi.MobileApp
             builder.Services.AddTransient<Home>();
             builder.Services.AddTransient<Settings>();
             builder.Services.AddTransient<InitialSetUp>();
-
+            builder.Services.AddTransient<PaymentPage>();
 
             //register ViewModel
             builder.Services.AddSingleton<INavigationService, NavigationService>(); 
@@ -59,7 +60,6 @@ namespace ConnectToAi.MobileApp
             builder.Services.AddSingleton<PromptService>();
             builder.Services.AddSingleton(AudioManager.Current);
             builder.Services.AddSingleton<AppSettings>();
-
 
             return builder.Build();
         }

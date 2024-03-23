@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ConnectToAi.MobileApp.Pages.Settings"
              Title="Settings">
-    <StackLayout x:Name="stackLayout">
-        
-    </StackLayout>
+
+    <VerticalStackLayout VerticalOptions="FillAndExpand">
+        <WebView x:Name="MyWebView" VerticalOptions="FillAndExpand"/>
+    </VerticalStackLayout>
 </ContentPage>

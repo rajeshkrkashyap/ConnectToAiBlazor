@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnecttoAi", "ConnecttoAi\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectToAi.MobileApp.Sync", "ConnectToAi.MobileApp.Sync\ConnectToAi.MobileApp.Sync.csproj", "{427C0C72-E398-49C5-B16D-4F3F9B27C805}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectToAiStaticWeb", "ConnectToAiStaticWeb\ConnectToAiStaticWeb.csproj", "{73540B60-1DFB-4B86-93B1-8320DD906A2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,12 +70,16 @@ Global
 		{427C0C72-E398-49C5-B16D-4F3F9B27C805}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{427C0C72-E398-49C5-B16D-4F3F9B27C805}.Release|Any CPU.Build.0 = Release|Any CPU
 		{427C0C72-E398-49C5-B16D-4F3F9B27C805}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{73540B60-1DFB-4B86-93B1-8320DD906A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73540B60-1DFB-4B86-93B1-8320DD906A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73540B60-1DFB-4B86-93B1-8320DD906A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73540B60-1DFB-4B86-93B1-8320DD906A2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
 		SolutionGuid = {9FB85D28-F961-46B1-9EEE-33E4CC5EB7F3}
+		        SolutionGuid = {61F7FB11-1E47-470C-91E2-47F8143E1572}
 	EndGlobalSection
 EndGlobal

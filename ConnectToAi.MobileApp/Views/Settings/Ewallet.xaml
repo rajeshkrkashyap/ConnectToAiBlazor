@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             xmlns:editors="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:local="clr-namespace:ConnectToAi.MobileApp.Views.Common"
+             x:Class="ConnectToAi.MobileApp.Views.Settings.Ewallet">
+
+    <Frame BorderColor="Azure">
+        <StackLayout Orientation="Vertical">
+            <Label Text= "RECHARGE ACCOUNT" FontAttributes="Bold"  TextDecorations="Underline" Padding="0,5,5,0" FontSize="Subtitle" TextColor="Black" />
+            <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                <core:SfTextInputLayout x:Name="txtAddMoney"  HorizontalOptions="StartAndExpand" 
+                ContainerType="None" HelperText="PLEASE ENTER AMOUNT" ErrorText="Invalid Amount"
+                                        Margin="0,0,0,0">
+                    <Entry  Text="{Binding Money}" Keyboard="Numeric" MaxLength="6"  />
+                </core:SfTextInputLayout>
+            </StackLayout>
+
+            <buttons:SfButton Text="RECHARGE" x:Name="addMoneyButton" Stroke="Transparent" 
+                          Margin="0,10,0,0"  Padding="0"  FontAttributes="Bold" 
+                          FontSize="Default"
+                          Command="{Binding AddMoneyCommand}" />
+
+            <local:HyperlinkButton 
+                            Text="RECHARGE" 
+                            TextColor="White" 
+                            Margin="0,10,0,0"  Padding="0"  FontAttributes="Bold" 
+                            FontSize="Default"
+                            Url="https://learn.microsoft.com/dotnet/" Command="{Binding PaymentCommand}" />
+
+        </StackLayout>
+    </Frame>
+</ContentView>

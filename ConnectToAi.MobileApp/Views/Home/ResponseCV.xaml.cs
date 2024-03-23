@@ -7,7 +7,6 @@ namespace ConnectToAi.MobileApp.Views;
 
 public partial class ResponseCV : ContentView
 {
-    bool _isSpeachOn = true;
     public ResponseCV(string responseText, INavigationService navigationService)
     {
         BindingContext = new ResponseCVViewModel(responseText, navigationService);

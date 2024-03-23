@@ -7,6 +7,7 @@
     xmlns:page="clr-namespace:ConnectToAi.MobileApp.Pages"
     Shell.FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False"
     x:Name="mainShell">
     <ShellContent 
         x:Name="mobileLoginPage" 
@@ -30,6 +31,11 @@
                 Title="Settings"
                 Route="Settings" 
                 ContentTemplate="{DataTemplate page:Settings}"/>
+            <!--<ShellContent
+                x:Name="paymentPage"    
+                Title="Payment"
+                Route="Payment"
+                ContentTemplate="{DataTemplate page:PaymentPage}"/>-->
         </Tab>
     </TabBar>
 </Shell>

@@ -47,7 +47,13 @@ namespace ConnectToAi.MobileApp.ViewModels
         public async Task VolumeOn()
         {
             var aiAvatarStr = Preferences.Get("AiAvatarName", "");
-            var aiAvatar = JsonConvert.DeserializeObject<Avatar>(aiAvatarStr);
+            Avatar aiAvatar = null;
+            if (aiAvatarStr != null)
+            {
+                aiAvatar = App.AiAvatars.Where(a => a.Value == aiAvatarStr).SingleOrDefault();
+            }
+
+            //var aiAvatar = JsonConvert.DeserializeObject<Avatar>(aiAvatarStr);
 
             IsHighVolumeVisible = true;
             IsMuteVolumeVisible = false;
@@ -75,7 +81,12 @@ namespace ConnectToAi.MobileApp.ViewModels
         public async Task VolumeOff()
         {
             var aiAvatarStr = Preferences.Get("AiAvatarName", "");
-            var aiAvatar = JsonConvert.DeserializeObject<Avatar>(aiAvatarStr);
+            //var aiAvatar = JsonConvert.DeserializeObject<Avatar>(aiAvatarStr);
+            Avatar aiAvatar = null;
+            if (aiAvatarStr != null)
+            {
+                aiAvatar = App.AiAvatars.Where(a => a.Value == aiAvatarStr).SingleOrDefault();
+            }
             IsHighVolumeVisible = true;
             IsMuteVolumeVisible = false;
             if (aiAvatar == null)
