@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\blogs.html" />
+    <Content Remove="wwwroot\blogs\1.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\bower_components\animate.css\.bower.json" />
     <Content Include="wwwroot\bower_components\animate.css\animate-config.json" />
     <Content Include="wwwroot\bower_components\animate.css\animate.css" />
@@ -332,6 +337,7 @@
     <None Include="wwwroot\assets\videos\sidewalk-feet-fast.mp4" />
     <None Include="wwwroot\assets\videos\sidewalk-feet-fast.webm" />
     <None Include="wwwroot\assets\videos\Thumbs.db" />
+    <None Include="wwwroot\blogs\1.html" />
     <None Include="wwwroot\bower_components\animate.css\Gruntfile.js" />
     <None Include="wwwroot\bower_components\bootstrap-hover-dropdown\.gitignore" />
     <None Include="wwwroot\bower_components\bootstrap-hover-dropdown\bootstrap-hover-dropdown.js" />
@@ -755,6 +761,7 @@
     <None Include="wwwroot\bower_components\themify-icons\fonts\themify.svg" />
     <None Include="wwwroot\bower_components\themify-icons\ie7\ie7.js" />
     <None Include="wwwroot\bower_components\themify-icons\README.md" />
+    <None Include="wwwroot\blogs\list.html" />
     <None Include="wwwroot\index.html" />
     <None Include="wwwroot\master\config.rb" />
     <None Include="wwwroot\master\config_prod.rb" />
@@ -866,7 +873,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.12" />
   </ItemGroup>
 
 </Project>
