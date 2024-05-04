@@ -16,7 +16,7 @@ namespace ConnectToAi.MobileApp
 
         
         public static Avatar selectAiAvatar;
-        
+         
         public static ObservableCollection<Avatar> AiAvatars;
 
         public Avatar SelectAiAvatar { get;  set; }
